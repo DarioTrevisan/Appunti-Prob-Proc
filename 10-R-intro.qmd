@@ -1,0 +1,345 @@
+# Introduzione ad R {#sec-appR}
+
+In questa appendice diamo qualche informazione introduttiva su R ed RStudio (a partire da come installarli nel proprio dispositivo).
+
+```{r include=FALSE}
+
+miei_colori  = c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", "#888888")
+
+#Parametri globali
+knitr::opts_chunk$set(dev='svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+```
+
+
+
+## Installare R ed RStudio
+
+**R** è un linguaggio per il calcolo statistico. È multipiattaforma, gratuito e aperto (open-source). Dispone di una comunità molto attiva, molte estensioni (librerie) sono facilmente reperibili e ben curate -- pur non essendovi una garanzia commerciale.
+
+
+Perché il nome R?  è un'evoluzione open-source di un linguaggio per statistica chiamato S.
+
+Per installare R sul proprio computer, si seguano le istruzioni per scaricare una distribuzione pre-compilate alla pagina <https://cran.rstudio.com/>.
+
+Oltre ad R, è fortemente consigliato installare inoltre **RStudio** che fornisce una interfaccia grafica ed un editor di testo con funzioni avanzate (precisamente è un *Integrated Development Enviroment*, IDE), che ne agevola notevolmente l'uso. La versione Desktop di RStudio è open-source e liberamente scaricabile seguendo le istruzioni alla pagina <https://rstudio.com/products/rstudio/download/#download>.
+
+
+
+## Primi comandi
+
+
+All'avvio di Rstudio appare un terminale (in basso a sinistra) in cui possiamo inserire del testo. Questo ci permette di dialogare direttamente con una sessione di R.
+
+
+
+Possiamo scrivere un file contenente comandi da eseguire cliccando su _File->New File->R script_ Questo produce uno script (una lista di comandi da eseguire). 
+
+In alternativa, possiamo anche procedere con  _File->New File->R notebook_, che produce un file di testo contenente blocchi di comandi eseguibili, esportabile in svariati formati, come HTML o PDF. Questo è molto utile se dovete preparare un report con l'analisi di alcuni dati (oppure documenti più sofisticati, ad esempio questi appunti sono tutti scritti usando R bookdown, una evoluzione di R notebook per scrivere libri).
+
+Per gestire *progetti* più complessi, contenenti diversi files, conviene andare alla voce _File->New Project..._
+
+
+
+
+In generale si può ottenere informazioni su un comando digitandolo preceduto dal punto interrogativo. Ad esempio `?exp` fornisce indicazioni sul comando `exp()`. Dal menù *Help* si può accedere a svariate risorse, tutorial e documentazione per conoscere comandi di base e più avanzati. 
+
+
+## R come calcolatrice
+
+Il primo uso che possiamo fare di R è una calcolatrice in cui molte funzioni e costanti matematiche sono già disponibili.
+
+```{r}
+3+4*(1+2)
+
+2^2
+
+2**2
+
+sqrt(2)
+
+2**(1/2)
+
+pi
+
+sin(pi)
+
+exp( log (2) )
+
+log(0)
+
+0/1
+
+1/0
+
+0/0
+```
+
+
+
+## Oggetti
+
+
+Il linguaggio permette di introdurre oggetti (numeri, vettori, liste, funzioni...) e li mantiene in memoria fino alla chiusura di una sessione, a meno che non vengano esplicitamente rimossi (questo può essere utile per le prestazioni nel caso si usi troppa memoria). 
+
+Per vedere quali oggetti sono attualmente disponibili nell'ambiente, usiamo il comando `ls()` oppure nella sezione in alto a destra, clicchiamo su _Environment_.
+
+Possiamo definire oggetti con il nome che preferiamo con i comandi  `=` oppure `<-` (in R è buona pratica usare il secondo, ma il simbolo di uguaglianza è comune a molti altri linguaggi). Definiamo ad esempio un oggetto numerico $X$ assegnando il valore 3:
+
+```{r}
+X = 3
+```
+
+oppure equivalentemente possiamo anche digitare `X = 3`. Per accedere al valore, basta dare il suo nome come comando
+
+```{r}
+X
+```
+
+Osserviamo che se introduciamo una copia $Y$ di $X$ e poi modifichiamo il valore di $X$, $Y$ non cambia.
+
+```{r}
+Y = X
+
+X = 4
+
+Y
+```
+Le operazioni tra oggetti (numerici) sono abbastanza naturali:
+
+```{r}
+x0 = 1
+x1 = 5
+x2 = 7
+
+somma = x0+x1+x2
+
+somma
+
+prodotto = x0 * x1 * x2
+
+prodotto
+```
+
+Ci sono diversi tipi di oggetti, per conoscerne il tipo (la classe) il comando è ` class()`, con il nome dell'oggetto tra le parentesi. Ad esempio,
+
+```{r}
+class(X)
+```
+
+
+
+## Logical e character
+
+Una classe di oggetti utile sono i __LOGICAL__ (valori TRUE o FALSE).
+
+```{r}
+class(TRUE)
+```
+
+Le operazioni Booleane sono `&` (and), `|` (or), `!` (not).
+
+```{r}
+TRUE & FALSE
+
+TRUE | FALSE
+
+!TRUE
+```
+
+Possiamo inoltre confrontare due oggetti numerici usando `==` per verificare se coincidono
+
+```{r}
+1 == 1 
+
+1 >= 2
+
+1 != 2
+```
+
+
+Un`altra classe di oggetti sono i __CHARACTER__, ossia stringhe di caratteri evidenziate dalla presenza delle virgolette.
+
+```{r}
+X = 'hello world'
+
+print('hello world')
+```
+
+
+## Vettori
+
+I dati raccolti  sperimentalmente spesso sono sequenze di osservazioni (ad esempio corrispondenti a diversi istanti nel tempo) che possiamo rappresentare come vettori. Per costruire un vettore usiamo la funzione di _concatenazione_ `c()`.
+
+```{r}
+vettore = c(1,2,3)
+
+vettore
+```
+
+
+In realtà R non distingue tra vettore e scalare. Questo è utile ad esempio per le operazioni matematiche che vengono eseguite su ciancun elemento.
+
+```{r}
+vettore * 2
+
+vettore + vettore
+
+vettore * vettore
+
+exp( vettore )
+```
+
+Attenzione però quando operiamo con vettori di lunghezze diverse:
+
+```{r}
+vettore0 = c(1,2,3,4)
+
+vettore0
+
+vettore1= c(1,2)
+
+vettore1
+
+vettore0 + vettore1
+
+vettore0*vettore1
+```
+
+Possiamo selezionare gli elementi di un vettore specificandone la posizione tra parentesi quadre `[]`. 
+
+```{r}
+vettore = c(5,3,6,18,-1)
+
+vettore[1]
+
+vettore[2]
+```
+
+__Attenzione__: diversamente da altri linguaggi, R conta le posizioni a partire da $1$, non da $0$.
+
+Possiamo anche inserire un vettore all'interno delle parentesi quadre per selezionare un sottovettore del vettore iniziale. Oppure inserire un vettore di oggetti LOGICAL, in tal caso si seleziona il sottovettore corrispondente alle componenti `TRUE`.
+
+```{r}
+
+vettore[c(1,2,5)]
+
+vettore >= 5
+
+vettore[ vettore >= 5]
+
+1:4
+
+vettore[1:4]
+
+```
+
+Per creare un vettore di numeri reali equispaziati usiamo il comando `seq()`.
+
+```{r}
+x = seq(-1, 1, by=0.1)
+
+x
+```
+
+
+
+## Plot, barplot e istogrammi
+
+Il comando `plot()` è il comando di base per rappresentare grafici in due dimensioni. Usiamolo ad esempio per tracciare un grafico della funzione $\sin(x)$ nell'intervallo $[0, 2\pi]$.
+
+```{r}
+deltax=0.01
+x = seq(0,2*pi, by=deltax)
+
+y = sin(x)
+
+plot(x,y, type='l')
+```
+
+
+
+Possiamo aggiungiamo delle etichette agli assi e cambiare il colore al grafico, ad esempio
+
+```{r}
+plot(x, y, type='l', xlab='x', ylab='sin(x)',  col=miei_colori[1], lwd=3, main="grafico della funzione seno")
+```
+
+
+
+Per rappresentare grafici a barre il comando è `barplot()`:
+
+```{r}
+
+barplot( 1:4, col=miei_colori[1], names.arg = c("uno", "due", "tre", "quattro"))
+
+
+```
+
+per rappresentare istogrammi (ossia diagrammi a barre delle frequenze in cui un insieme di dati assume valori in determinati intervalli), il comando è `hist()`:
+
+```{r}
+
+hist(y, col=miei_colori[1])
+
+```
+
+## Pacchetti
+
+Uno dei punti di forza di R è l'ampia disponibilità di pacchetti (o librerie) che contengono svariate funzioni pronte all'uso per l'analisi dei dati, la rappresentazione grafica e la statistica. Faremo uso di qualche pacchetto anche nel corso. Il comando di base per *installare* un pacchetto (assicurarsi di essere connessi ad Internet) è `install.packages()` dove bisogna specificare tra virgolette il nome del pacchetto che si vuole installare. Ad esempio, faremo uso di `forecast`, perciò si può installarlo digitando sulla console di R `install.packages('forecast')`. 
+
+Per *caricare* in una sessione di R un pacchetto e quindi poter accedere a tutte le funzioni che contiene, il comando è `library()` in cui di nuovo bisogna specificare nelle parentesi il nome del pacchetto di interesse. Perciò per poter accedere alle funzioni di `forecast` basterà digitare, dopo averlo installato correttamente, il comando `library(forecast)`. Non è necessario installare ogni volta il pacchetto, mentre in ogni sessione di R  vanno caricati ogni volta (a meno di non riprendere una sessione già salvata). 
+
+Se si vuole accedere solo ad una funzione da un pacchetto installato (ma non necessariamente caricato con `library()`), basta digitare il nome del pacchetto, due volte due punti, `::`, e poi il nome della funzione. Ad esempio, per usare la funzione `Acf()` dal pacchetto `forecast` (supponendo che sia installato), basta digitare `forecast::Acf()`. 
+
+Un elenco dei pacchetti disponibili è mantenuto sul sito [CRAN](https://cran.r-project.org/web/packages/available_packages_by_name.html).
+
+Le funzioni descritte sopra sono sufficienti per un uso di base, ma per un uso più efficiente dei pacchetti e in particolare la gestione delle interdipendenze (una funzione può avere bisogno di altre funzioni definite in altri pacchetti ecc.), consigliamo il tool [pacman](https://cran.r-project.org/web/packages/pacman/index.html). Per installarlo basta dare il comando `install.packages('pacman')`. 
+
+## Input e Output
+
+La gestione dell'input e dell'output (ad esempio di previsioni, stime ecc.) in R può essere un po' noiosa, perché formati di file diversi (testo semplice,  Excel, ecc.) richiedono comandi diversi. Tuttavia, per un uso di base, si può installare il pacchetto `rio`. Consigliamo di usare `pacman` come strumento per l'installazione. Digitare quindi `install.packages('pacman')` se `pacman` non è già installato. Successivamente, basta digitare `pacman::p_install('rio')` per installarlo e `pacman::p_load('rio')` per caricarlo.
+
+Una volta caricato, i comandi principali sono `import()` ed `export()` rispettivamente per caricare da un file e salvare dei dati su un file.  È importante specificare l'estensione del file (si basa su quello per determinare il tipo di file).
+
+Non tutti i formati sono supportati di base (in particolare gli Excel non lo sono), si veda la descrizione a [questa pagina](https://cran.r-project.org/web/packages/rio/vignettes/rio.html) (bisogna usare il comando `install_formats()`)
+
+
+
+```{r}
+
+# Carichiamo rio
+
+library('rio')
+
+# Esportiamo il dataset Iris come un file .csv (comma separated value), ossia un file di testo semplice in cui le colonne sono separate da virgola
+
+export(iris, "iris.csv")
+
+# Nella cartella di lavoro dovrebbe essere presente il file iris.csv. Per importare basta usare il comando import. Vediamo ad esempio sullo stesso file appena creato
+
+iris_importato = import( "iris.csv")
+
+# Riconosciamo il solito dataset Iris
+
+head(iris_importato)
+
+
+
+
+
+```
+
+
+
+
+
+
+### Esercizi
+
+:::{.exercise}
+Approssimare numericamente l'integrale di $\sin(x)$ nell'intervallo $[1/2,1]$. Può essere utile il comando `sum()`.
+:::
+
+:::{.exercise} 
+Perché il grafico prodotto dal comando `hist(y)` sopra non mostra barre della medesima altezza? Ripetere la stessa costruzione con  una funzione $y= f(x)$ diversa: per quali valori di $y$ l'istogramma presenterà barre più alte?
+:::

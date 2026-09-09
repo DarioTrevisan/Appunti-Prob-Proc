@@ -1,0 +1,171 @@
+# Richiami sulla trasformata di Fourier {#sec-fourier}
+
+```{r include=FALSE}
+
+miei_colori  = c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", "#888888")
+
+#Parametri globali
+knitr::opts_chunk$set(dev='svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+```
+
+
+
+In questa appendice richiamiamo alcune notazioni e risultati principali riguardanti la trasformata di Fourier, prima nel caso finito (Sezione  @sec-fourier-finita) poi nel caso di tempi discreti (Sezione @sec-fourier-discreta) e infine nel caso continuo (Sezione @sec-fourier-continua)
+
+## Caso finito {#sec-fourier-finita}
+
+Fissano $n \in \N$, si consideri un *segnale* definito (o misurato) su un intervallo discreto di $n$  valori
+$$g : \cur{0, 1, \ldots, (n-1)} \to \mathbb{C}, \quad t \mapsto g( t ).$$
+Si definisce la sua *trasformata di Fourier*  come la funzione
+$$ \hat g : \cur{0, 1, \ldots, (n-1)}  \to \mathbb{C}, \quad \xi \mapsto  \hat{g}(\xi) := \sum_{t=0}^{n-1} g(t) e^{ - 2 \pi i t \xi/n}.$$
+
+:::{.remark}
+Il dominio di definizione della $g$ può essere pensato come un insieme di tempi, mentre il dominio di $\hat{g}$ quello di opportune *frequenze* $\xi$ per le funzioni oscillanti $t \mapsto e^{ - 2 \pi i t \xi/n}$. Precisamente, le frequenze sarebbero $\xi/n$, mentre le frequenze angolari $2 \pi \xi/n$: questo giustifica parametrizzazioni diverse della trasformata di Fourier, ma nel caso discreto quella introdotta sopra è la più comune.
+:::
+
+Se si interpeta sia $g = (g(t))_{t=0}^{n-1}$ che $(\hat g(\xi))_{\xi =0}^{n-1}$ come  vettori in $\mathbb{C}^n$, allora $\hat{g}$ è il vettore ottenuto moltiplicando $g$ per la matrice $F \in \mathbb{C}^{n\times n}$, data da
+$$ F_{\xi t } = e^{ - 2 \pi i t \xi/n}.$$
+La proprietà fondamentale della matrice $F$ è di essere *unitaria*, ossia l'inversa di $F$ è la sua trasposta coniugata (in realtà, per via della definizione che abbiamo usato, questo è vero a meno di una costante moltiplicativa $1/n$). Questo perché vale la relazione di ortogonalità, per $s$, $t \in \cur{0,1, \ldots, n-1}$,
+$$  (\bar{F}^T F)_{s t} = \sum_{\xi = 0}^{n-1} e^{  2 \pi i s \xi/n}e^{ - 2 \pi i t \xi/n} = \begin{cases}  n & \text{se $s=t$}\\
+ 0 &\text{altrimenti.}
+ \end{cases}$$
+ Per dimostrarlo basta ricordare la somma geometrica $\sum_{j=0}^{k-1} z^j = (z^{k}-1)/(z-1)$ e il fatto che $e^{2\pi i }= 1$.
+
+Come prima conseguenza otteniamo allora la formula di inversione
+ $$ g = \frac{1}{n} \bar{F}^T F g,$$
+ che esplicitamente diventa
+ $$ g(t ) = \frac 1 n \sum_{\xi=0}^{n-1} \hat{g}(\xi) e^{2 \pi i \xi t/n}.$$
+ In altre parole, la trasformata di Fourier permette di ricostruire esattamente $g$ mediante una operazione inversa che è analoga a quella diretta.
+ 
+ Una seconda conseguenza è il fatto che la norma (Euclidea) del vettore $g$ coincide (a meno di un fattore $1/n$) con quella del vettore $\hat{g}$, perché
+ $$ |\hat g|^2 = \overline{F g}^T F g = \bar g^T \bar{F}^T F g = n \bar{g}^T g =   n  |g|^2.$$
+ 
+:::{.remark}
+La norma $|g|^2$ può essere intepretata come una *energia* del segnale $g$, di conseguenza l'identità sopra mostra che la stessa energia può essere ottenuta sommando le energie associate alle singole frequenze, ossia $|\hat{g}(\xi)|^2$ (e dividendo per $n$).
+:::
+
+:::{.remark}
+Tutte le trasformate di Fourier che si approssimano numericamente sono ridotte al caso di tempi finiti. Per questo vi sono algoritmi particolarmente veloci, che in R si possono usare mediante la funzione `fft()`. Ecco un esempio.
+
+```{r fig.cap="esempio di un segnale finito (onda quadra) e della sua trasformata di Fourier" }
+
+# fissiamo n 
+
+n=16
+
+#definiamo un vettore dei tempi e uno delle frequenze
+
+t = 0:(n-1)
+xi= 0:(n-1)
+
+#questa opzione permette di visualizzare due grafici uno accanto all'altro (1,2)=(1 riga, 2 colonne)
+
+par(mfrow=c(1,2))
+
+# definiamo g come l'onda quadra e la plottiamo
+
+g = c(rep(1,n/2), rep(-1, n/2))
+
+plot(t, g, col=miei_colori[1], lwd=3, pch=16)
+
+# usiamo fft() per calcolare la trasformata di Fourier e la plottiamo
+
+hat_g = fft(g)
+
+m = max(abs(hat_g))
+
+plot(xi, Re(hat_g), col=miei_colori[2], ylab="trasformata di g", pch=16, lwd=3, ylim=c(-m,m))
+points(xi, Im(hat_g)+0.1, col=miei_colori[3], pch=16, lwd=3)
+legend('bottomright', c("parte reale", "parte immaginaria"), fill=miei_colori[2:3], cex=0.7)
+
+```
+Possiamo anche verificare la formula di inversione, usando l'opzione `inverse =TRUE` nella stessa funzione `fft()`. Bisogna tuttavia ricordare il fattore $n$.
+```{r warning=FALSE}
+
+g_ricostruita = fft(hat_g, inverse=TRUE)
+
+# osserviamo che la ricostruzione coincide con la g ma dilatata di un fattore n
+
+plot( t, g_ricostruita, pch=16, lwd=3, col=miei_colori[4])
+
+```
+Possiamo infine verificare l'identità dell'energia calcolando e confrontando le norme Euclidee dei vettori:
+```{r}
+
+sum( abs(g)^2 ) 
+
+sum( abs(hat_g)^2)
+
+# moltiplicando per n la prima si ottiene la seconda, infatti
+
+n* sum( abs(g)^2 )
+```
+:::
+
+
+
+
+## Caso discreto {#sec-fourier-discreta}
+
+Supponiamo ora di osservare un segnale definito su un tempo infinito discreto $g: \mathbb{Z} \to \mathbb{C}$ (è una situazione ideale ovviamente). L'analoga trasformazione stavolta definisce la trasformata di Fourier a tempi discreti
+$$ \hat{g} : [0,1] \to \mathbb{C}, \quad \xi \mapsto \hat{g}(\xi) := \sum_{t \in \mathbb{Z}} g(t) e^{2 \pi i t \xi},$$
+purché la serie converga, ad esempio se
+$$ \sum_{t \in \mathbb{Z}} |g(t)| < \infty.$$
+
+:::{.remark}
+L'intuizione per passare dal finito al discreto è di cambiare la variabile frequenza  nel caso discreto, ossia di passare da $\xi$ a $\xi/n$, in modo che il dominio sia l'intervallo discreto $\cur{0,1/n, 2/n, \ldots, (n-1)/n}$. In questo modo, per $n \to \infty$ si ottiene una funzione definita sull'intervallo continuo di frequenze $[0,1]$. Come nel caso finito, si può utilizzare la frequenza angolare $\omega = 2 \pi \xi$ per parametrizzare la trasformata di Fourier. In questo modo tuttavia appare un fattore $1/2\pi$ nella formula di inversione (dovuto al cambio di variabile nell'integrale).
+:::
+
+Anche senza ricorrere all'intuizione sopra, si può dimostrare l'analogo discreto della formula di inversione, ossia
+$$ g(t) =  \int_0^1 \hat{g}(\xi) e^{2 \pi i t \xi}d \xi,$$
+e l'identità dell'energia
+$$ \sum_{t \in \mathbb{Z}} |g(t)|^2 =  \int_0^1 |\hat{g}(\xi)|^2 d \xi.$$
+Senza entrare nei dettagli, il punto chiave è la relazione di ortogonalità
+$$ \int_0^1 e^{2 \pi i s \xi} e^{-2 \pi i t \xi} d \xi = \begin{cases} 1 & \text{se $s=t$,}
+\\
+0 & \text{altrimenti,}\end{cases}$$
+che si dimostra ad esempio integrando per parti. Le due relazioni sopra seguono ripercorrendo la dimostrazione del caso finito sfruttando questa ortogonalità.
+
+Nel caso di tempi discreti la trasformata di Fourier è particolarmente utile perché è un cambio di coordinate che si "comporta" bene con le operazioni di traslazione. Se infatti definiamo l'operatore di *ritardo* $L$ (in inglese *lag*), che trasforma $g$ nel segnale
+$$ t \mapsto (Lg)(t) = g(t-1),$$
+allora
+$$ \widehat{ Lg} (\xi) = \sum_{t \in \mathbb{Z}} g(t-1)e^{-2 \pi i t \xi} = e^{-2 \pi i \xi} \hat{g}(\xi).$$
+In termini fisici, la traslazione (o ritardo) fa acquisire una fase alla trasformata.
+
+
+
+Il punto è che iterando l'operazione, la fase si accumula: posta $L^s g(t) = g(t-s)$, ossia $L$ applicata $s$-volte a $g$, si ha
+$$\widehat{ L^s g}(\xi) = e^{-2 \pi i s \xi } \hat{g}(\xi).$$
+Una operazione piuttosto naturale quando si intepreta $g$ come un segnale è la *convoluzione* con un "filtro" $f$, ossia una ulteriore funzione $f: \mathbb{Z} \to \mathbb{C}$ (con delle caratteristiche opportune). La definizione di convolution $g*f$ è data dalla seguente formula:
+$$ (g * f) (t ) =  \sum_{s  \in \mathbb{Z}} g(t-s) f(s).$$
+Passando alla trasformata di Fourier, possiamo scrivere
+$$ \begin{split} \widehat{g * f}(\xi) & = \widehat{ \sum_{s  \in \mathbb{Z}} g(\cdot-s) f(s)} (\xi) \\
+& = \sum_{s  \in \mathbb{Z}}\widehat{ g(\cdot-s)} (\xi) f(s)\\
+&  = \sum_{s  \in \mathbb{Z}} \widehat{ L^s g} (\xi) f(s)\\
+& = \sum_{s  \in \mathbb{Z}} e^{-2\pi i s} \hat g (\xi) f(s)\\
+& = \hat g (\xi) \sum_{s  \in \mathbb{Z}} e^{-2\pi i s} \hat g (\xi) f(s) = \hat{g}(\xi) \hat{f}(\xi).\end{split}$$
+In altri termini, nelle coordinate date dalla trasformata di Fourier (la base delle frequenze) la convoluzione con un filtro $f$ si riduce al prodotto con la sua trasformata di fourier $\hat{f}$.
+
+In particolare, dall'identità dell'energia segue che
+$$ \sum_{ t \in \mathbb{Z}} |g * f|^2(t) = \int_0^1 |\hat{g}|^2(\xi)|\hat{f}|^2(\xi ) d \xi.$$
+
+## Caso continuo{#sec-fourier-continua}
+
+Accenniamo infine al caso continuo, che corrisponde ad un passaggio al limite in cui i tempi $t \in \mathbb{Z}$ sono pensati come equidistanziati di passo $\Delta t \to 0$. Ne segue che per descrivere $g$ sono necessarie frequenze in intervalli via via più ampi e nel limite la trasformata di Fourier di 
+$$g : \R \to \mathbb{C}$$
+è definita come
+$$ \hat{g}: \R \to \mathbb{C}, \quad \hat{g}(\xi) := \int_{-\infty}^\infty g(t) e^{-2\pi i t \xi} d t,$$
+purché l'integrale converga, ad esempio se
+$$ \int_{-\infty}^\infty |g(t)| d t < \infty.$$
+Anche in questo caso (ma è meno immediato) si può mostrare una formula di inversione
+$$ g(t) =  \int_{-\infty}^\infty \hat{g}(\xi) e^{2 \pi i t \xi}d \xi,$$
+(purché l'integrale abbia senso) e l'identità dell'energia
+$$ \int_{-\infty}^\infty |g(t)|^2 d t=  \int_{-\infty}^{\infty} |\hat{g}(\xi)|^2 d \xi.$$
+Anche nel caso continuo si può introdurre la convoluzione con un filtro $f: \R \to \mathbb{C}$,
+$$ g  * f(t) = \int_{-\infty}^\infty g(t-s)f(s) d s,$$
+e nella base delle frequenze l'operazione si riduce ad un prodotto:
+$$ \widehat{ g * f}(\xi) = \hat g (\xi) \hat f (\xi).$$
+
+:::{.remark}
+Come nel caso di tempi discreti, si può utilizzare la frequenza angolare $\omega = 2 \pi \xi$ come variabile per la trasformata di Fourier. Questa è in effetti la variabile utilizzata solitamente per la definizione della funzione caratteristica di una variabile aleatoria, come descritta nella Sezione @sec-caratteristica.
+:::

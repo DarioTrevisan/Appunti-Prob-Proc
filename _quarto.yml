@@ -1,0 +1,41 @@
+project:
+  type: book
+
+book: 
+  title: "Probabilità e Processi Stocastici (455AA)"
+  subtitle: | 
+          Appunti del corso\
+          \
+          A.A. 2023-2024
+  author: "Dario Trevisan"
+  date: today
+  cover-image: cover.png
+  chapters:
+    - index.qmd
+    - eventi.qmd
+    - VA_generali.qmd
+    - 04-VA_indicatori.qmd
+    - 05-VA_gaussiane.qmd
+    - 06-processi_discreti.qmd
+    - 07-processi_continui.qmd
+    - 08-teoremi_limite.qmd
+    - 10-R-intro.qmd
+    - 11-fourier.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+page-navigation: true
+
+format:
+  html:
+    theme: cosmo
+    include-in-header: preamble.html
+    code-overflow: wrap
+  pdf:
+    documentclass: book
+    include-in-header: preamble.tex
+    code-overflow: wrap
+
+
+editor: source
