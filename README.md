@@ -50,5 +50,4 @@ with the relevant chapter and a short description of the change.
 
 ## License
 
-No license has been selected yet. Until a license is added, the copyright
-holder retains all rights beyond those granted by applicable law.
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/). See [LICENSE](LICENSE) for details.
