@@ -21,9 +21,7 @@ book:
     - 08-teoremi_limite.qmd
     - 10-R-intro.qmd
     - 11-fourier.qmd
-    - references.qmd
-
-bibliography: references.bib
+    - 12-letture-consigliate.qmd
 
 page-navigation: true
 

@@ -1,0 +1,18 @@
+# Letture consigliate {.unnumbered}
+
+Le seguenti letture **non sono necessarie per il corso** e non fanno parte del programma d'esame. Sono suggerite a chi desideri ampliare la propria cultura sulla probabilità, sulla statistica e sul ragionamento in condizioni di incertezza, attraverso testi accessibili e ricchi di esempi, prospettive storiche e riflessioni metodologiche.
+
+* **E. T. Jaynes, *Probability Theory: The Logic of Science*.**
+  Un testo originale e influente che presenta la probabilità come estensione della logica al ragionamento in presenza di informazione incompleta. Pur contenendo parti matematicamente impegnative, può essere letto anche selettivamente ed è particolarmente interessante per la sua prospettiva concettuale e bayesiana.
+
+* **Nate Silver, *The Signal and the Noise: Why So Many Predictions Fail—but Some Don't*.**
+  Una lettura molto accessibile sul problema della previsione in ambiti diversi, dalla meteorologia alla finanza, dallo sport alla politica. Il libro discute temi centrali quali incertezza, calibrazione delle previsioni, overfitting, qualità dei dati e aggiornamento delle probabilità alla luce di nuove informazioni.
+
+* **David Spiegelhalter, *The Art of Statistics: Learning from Data*.**
+  Un'introduzione moderna e non tecnica al modo in cui la statistica permette di estrarre informazione dai dati. Attraverso numerosi esempi reali, affronta questioni quali variabilità, inferenza, correlazione, regressione, test statistici, comunicazione dell'incertezza e interpretazione critica dei risultati.
+
+* **Judea Pearl e Dana Mackenzie, *The Book of Why: The New Science of Cause and Effect*.**
+  Un'introduzione divulgativa al ragionamento causale. Il libro mette in evidenza la differenza tra osservare associazioni, formulare previsioni e stabilire relazioni di causa-effetto, introducendo alcune delle idee fondamentali della moderna teoria della causalità.
+
+* **Persi Diaconis e Brian Skyrms, *Ten Great Ideas About Chance*.**
+  Un percorso storico e concettuale attraverso alcune delle principali idee che hanno formato la moderna teoria della probabilità. Il libro intreccia matematica, filosofia, giochi d'azzardo, statistica e teoria della decisione, offrendo una prospettiva ampia sul significato e sull'uso del caso nelle scienze.
