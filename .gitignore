@@ -5,6 +5,12 @@
 
 /.quarto/
 /_book/
+/site_libs/
 **/*_files/
 
 **/*.quarto_ipynb
+*.rmarkdown
+*.knit.md
+tmp-pdfcrop-*.tex
+/*.tex
+!/preamble.tex
