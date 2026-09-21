@@ -6,7 +6,7 @@ book:
   subtitle: | 
           Appunti del corso\
           \
-          A.A. 2023-2024
+          A.A. 2026-2027
   author: "Dario Trevisan"
   date: today
   cover-image: cover.png
@@ -34,6 +34,7 @@ format:
     documentclass: book
     include-in-header: preamble.tex
     code-overflow: wrap
+    keep-tex: true
 
 
 editor: source

@@ -1,7 +1,8 @@
 
 ```{r include=FALSE}
 #Parametri globali
-knitr::opts_chunk$set(dev='svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+knitr::opts_chunk$set(dev = if (knitr::is_latex_output()) 'cairo_pdf' else 'svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+if (knitr::is_latex_output()) options(width = 60)
 ```
 
 

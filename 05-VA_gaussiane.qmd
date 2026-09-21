@@ -5,7 +5,8 @@
 miei_colori  = c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", "#888888")
 
 #Parametri globali
-knitr::opts_chunk$set(dev='svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+knitr::opts_chunk$set(dev = if (knitr::is_latex_output()) 'cairo_pdf' else 'svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+if (knitr::is_latex_output()) options(width = 60)
 ```
 
 Le densità gaussiane (o normali) sono particolari densità continue  (su $\R$ o più in generale su $\R^d$) che hanno una estrema rilevanza sia nella teoria della probabilità che nelle applicazioni. Tra le densità continue è di sicuro la famiglia più versatile e importante (anche più delle densità uniformi). 

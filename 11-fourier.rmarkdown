@@ -170,3 +170,4 @@ $$ \widehat{ g * f}(\xi) = \hat g (\xi) \hat f (\xi).$$
 :::{.remark}
 Come nel caso di tempi discreti, si può utilizzare la frequenza angolare $\omega = 2 \pi \xi$ come variabile per la trasformata di Fourier. Questa è in effetti la variabile utilizzata solitamente per la definizione della funzione caratteristica di una variabile aleatoria, come descritta nella Sezione @sec-caratteristica.
 :::
+

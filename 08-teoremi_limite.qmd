@@ -4,7 +4,8 @@
 miei_colori  = c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", "#888888")
 
 #Parametri globali
-knitr::opts_chunk$set(dev='svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+knitr::opts_chunk$set(dev = if (knitr::is_latex_output()) 'cairo_pdf' else 'svg', fig.width = 5, fig.align = 'center', tidy=FALSE)
+if (knitr::is_latex_output()) options(width = 60)
 ```
 
 #  I teoremi limite {#sec-limite}
