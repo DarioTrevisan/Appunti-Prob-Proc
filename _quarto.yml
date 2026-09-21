@@ -22,6 +22,7 @@ book:
     - 10-R-intro.qmd
     - 11-fourier.qmd
     - 12-letture-consigliate.qmd
+  downloads: [pdf]
 
 page-navigation: true
 
