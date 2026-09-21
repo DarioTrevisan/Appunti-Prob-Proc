@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; I teoremi limite – Probabilità e Processi Stocastici (455AA)</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./10-R-intro.html" rel="next">
+<link href="./07-processi_continui.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2284e27fd139a888d034a55055b371a4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nessun risultato",
+    "search-matching-documents-text": "documenti trovati",
+    "search-copy-link-title": "Copiare il link nella ricerca",
+    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
+    "search-more-match-text": "ci sono altri risultati in questo documento",
+    "search-more-matches-text": "ulteriori risultati in questo documento",
+    "search-clear-button-title": "Pulire",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancellare",
+    "search-submit-button-title": "Inviare",
+    "search-label": "Ricerca"
+  }
+}</script>
+
+</head><body class="nav-sidebar floating quarto-light">\(
+  \newcommand{\comma}{\textrm{,}}
+  \newcommand{\period}{\textrm{.}}
+  \newcommand{\bra}[1]{\left( #1 \right)}
+  \newcommand{\sqa}[1]{\left[ #1 \right]}
+  \newcommand{\cur}[1]{\left\{ #1 \right\}}
+  \newcommand{\ang}[1]{\left&lt; #1 \right&gt;}
+  \newcommand{\abs}[1]{\left| #1 \right|}
+  \newcommand{\nor}[1]{\left\| #1 \right\|}
+  \newcommand{\prob}{\mathbb{P}}
+  \newcommand{\R}{\mathbb{R}}
+  \newcommand{\cN}{\mathcal{N}}
+  \newcommand{\N}{\mathbb{N}}
+  \renewcommand{\d}{\mathrm{d}}
+  \newcommand{\cA}{\mathcal{A}}
+  \newcommand{\cB}{\mathcal{B}}
+  \newcommand{\cD}{\mathbb{D}}
+  \newcommand{\cF}{\mathcal{F}}
+  \newcommand{\cT}{\mathcal{T}}
+  \newcommand{\esp}[1]{\mathbb{E}\sqa{#1}}
+  \newcommand{\E}[1]{\mathbb{E}\sqa{#1}}
+  \newcommand{\Var}[1]{\operatorname{Var}\bra{#1}}
+  \newcommand{\Cov}[1]{\operatorname{Cov}\bra{#1}}
+  \newcommand{\SUR}{\operatorname{SUR}}
+  \newcommand{\CDF}{\operatorname{CDF}}
+  \newcommand{\MGF}{\operatorname{MGF}}
+  \newcommand{\map}{\operatorname{MAP}}
+  \newcommand{\mle}{\operatorname{MLE}}
+  \newcommand{\ols}{\operatorname{OLS}}
+\)
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-teoremi_limite.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">I teoremi limite</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probabilità e Processi Stocastici (455AA)</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Ricerca"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduzione</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eventi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probabilità elementare</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VA_generali.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabili aleatorie generali</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-VA_indicatori.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indicatori caratteristici</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-VA_gaussiane.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variabili aleatorie gaussiane</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-processi_discreti.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processi stocastici a stati discreti</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-processi_continui.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Processi a stati continui</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-teoremi_limite.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">I teoremi limite</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-R-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduzione ad R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Richiami sulla trasformata di Fourier</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-letture-consigliate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Letture consigliate</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Indice</h2>
+   
+  <ul>
+  <li><a href="#sec-convergenze" id="toc-sec-convergenze" class="nav-link active" data-scroll-target="#sec-convergenze"><span class="header-section-number">8.1</span> Convergenza di variabili aleatorie</a></li>
+  <li><a href="#sec-lln" id="toc-sec-lln" class="nav-link" data-scroll-target="#sec-lln"><span class="header-section-number">8.2</span> Legge dei grandi numeri</a>
+  <ul class="collapse">
+  <li><a href="#modello-dellurna" id="toc-modello-dellurna" class="nav-link" data-scroll-target="#modello-dellurna"><span class="header-section-number">8.2.1</span> Modello dell’urna</a></li>
+  <li><a href="#un-risultato-generale" id="toc-un-risultato-generale" class="nav-link" data-scroll-target="#un-risultato-generale"><span class="header-section-number">8.2.2</span> Un risultato generale</a></li>
+  </ul></li>
+  <li><a href="#sec-ergodic" id="toc-sec-ergodic" class="nav-link" data-scroll-target="#sec-ergodic"><span class="header-section-number">8.3</span> Teoremi Ergodici</a></li>
+  <li><a href="#sec-clt" id="toc-sec-clt" class="nav-link" data-scroll-target="#sec-clt"><span class="header-section-number">8.4</span> Il teorema limite centrale</a>
+  <ul class="collapse">
+  <li><a href="#il-modello-dellurna" id="toc-il-modello-dellurna" class="nav-link" data-scroll-target="#il-modello-dellurna"><span class="header-section-number">8.4.1</span> Il modello dell’urna</a></li>
+  <li><a href="#il-caso-generale" id="toc-il-caso-generale" class="nav-link" data-scroll-target="#il-caso-generale"><span class="header-section-number">8.4.2</span> Il caso generale</a></li>
+  </ul></li>
+  <li><a href="#sec-montecarlo" id="toc-sec-montecarlo" class="nav-link" data-scroll-target="#sec-montecarlo"><span class="header-section-number">8.5</span> Cenni ai metodi Monte Carlo</a></li>
+  <li><a href="#sec-extreme" id="toc-sec-extreme" class="nav-link" data-scroll-target="#sec-extreme"><span class="header-section-number">8.6</span> Cenni agli eventi estremi</a></li>
+  <li><a href="#problemi" id="toc-problemi" class="nav-link" data-scroll-target="#problemi"><span class="header-section-number">8.7</span> Problemi</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-limite" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">I teoremi limite</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In questo capitolo accenniamo ad alcuni tra i principali teoremi limite nella probabilità. Precisamente:</p>
+<ul>
+<li><p>Nella Sezione <a href="#sec-convergenze" class="quarto-xref"><span>Sezione 8.1</span></a> definiamo le nozioni di convergenza per variabili aleatorie che useremo.</p></li>
+<li><p>Nella Sezione <a href="#sec-lln" class="quarto-xref"><span>Sezione 8.2</span></a> presentiamo la legge dei grandi numeri per variabili indipendenti, un risultato fondamentale che permette di collegare il concetto di frequenza delle osservazioni con la probabilità, nel caso di esperimenti indipendenti.</p></li>
+<li><p>La Sezione <a href="#sec-ergodic" class="quarto-xref"><span>Sezione 8.3</span></a> discute come estendere la legge dei grandi numeri al caso di processi più generali, ottenendo teoremi detti <em>ergodici</em>.</p></li>
+<li><p>Il teorema limite centrale è presentato nella Sezione <a href="#sec-clt" class="quarto-xref"><span>Sezione 8.4</span></a> come naturale precisazione della legge dei grandi numeri.</p></li>
+<li><p>Accenniamo brevemente alle applicazioni ai metodi Monte Carlo nella Sezione <a href="#sec-montecarlo" class="quarto-xref"><span>Sezione 8.5</span></a>.</p></li>
+<li><p>Infine discutiamo nella Sezione <a href="#sec-extreme" class="quarto-xref"><span>Sezione 8.6</span></a> altri teoremi limite, ad esempio per il massimo o il minimo di variabili indpendenti.</p></li>
+</ul>
+<section id="sec-convergenze" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="sec-convergenze"><span class="header-section-number">8.1</span> Convergenza di variabili aleatorie</h2>
+<p>Prima di discutere i teoremi limite di questa sezione, dobbiamo specificare in che senso una successione di variabili aleatorie <span class="math inline">\((X_n)_{n=1}^\infty\)</span> approssimi una variabile aleatoria limite <span class="math inline">\(X_\infty\)</span> (o invertendo il punto di vista, la variabile limite <span class="math inline">\(X_\infty\)</span> sia una buona approssimazione delle variabili <span class="math inline">\(X_n\)</span> al crescere di <span class="math inline">\(n\)</span>).</p>
+<p>Ci sono molteplici nozioni, ma gli approcci principali sono essentialmente due:</p>
+<ul>
+<li>si afferma che la distanza <span class="math inline">\(|X_n - X_\infty|\)</span> diventa piccola, con grande probabilità, al crescere di <span class="math inline">\(n\)</span>,</li>
+<li>oppure si afferma che le leggi di <span class="math inline">\(X_n\)</span> convergono verso la legge di <span class="math inline">\(X_\infty\)</span>, ad esempio confrontandone le densità, le <span class="math inline">\(\CDF\)</span>, le <span class="math inline">\(\MGF\)</span>, i momenti, ecc.</li>
+</ul>
+<p>La differenza più rilevante è che nel primo caso interviene la legge congiunta delle variabili, ad esempio tra <span class="math inline">\(X_n\)</span> e <span class="math inline">\(X_\infty\)</span> per costruire la variabile composta <span class="math inline">\(|X_n - X_\infty|\)</span>, mentre nel secondo caso si considerano solamente le leggi marginali. Tipicamente il primo approccio fornisce nozioni più forti di convergenza rispetto al secondo, ma entrambi sono utili.</p>
+<p>Partendo da queste premesse, diamo due definizioni legate al primo approccio.</p>
+<div class="definition">
+<p>Siano <span class="math inline">\((X_n)_{n=1}^\infty\)</span> e <span class="math inline">\(X_\infty\)</span> variabili aleatorie a valori in <span class="math inline">\(\R^d\)</span>. Diciamo che <span class="math inline">\(X_n\)</span> converge verso <span class="math inline">\(X_\infty\)</span></p>
+<ul>
+<li><em>in probabilità</em> se per ogni <span class="math inline">\(\varepsilon&gt;0\)</span>, si ha <span class="math display">\[ \lim_{n \to \infty} P( |X_n - X_\infty| \le \varepsilon) = 1,\]</span> oppure, equivalentemente, <span class="math display">\[ \lim_{n \to \infty} P( |X_n - X_\infty| &gt; \varepsilon) = 0;\]</span></li>
+<li><em>in media quadratica</em> se vale <span class="math display">\[ \lim_{n \to \infty } \E{ |X_n - X_\infty|^2} = 0.\]</span></li>
+</ul>
+</div>
+<p>In entrambi i casi vediamo che la legge congiunta di <span class="math inline">\((X_n, X_\infty)\)</span> è rilevante ai fini del calcolo delle probabilità o del valor medio.</p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Osservazione</em>. </span>C’è una implicazione tra le due nozioni di convergenza: se vale la convergenza in media quadratica, allora vale anche in probabilità. Questo perché la diseguaglianza di Markov implica che <span class="math display">\[ P( |X_n - X_\infty| &gt; \varepsilon)  = P( |X_n - X_\infty|^2 &gt; \varepsilon^2 ) \le \frac{ \E{ |X_n - X_\infty|^2}}{\varepsilon^2},\]</span> e quindi se il membro a destra è infinitesimo anche quello a sinistra lo è (osserviamo che <span class="math inline">\(\varepsilon&gt;0\)</span> è arbritrario ma fissato, non dipende da <span class="math inline">\(n\)</span>).</p>
+</div>
+<p>Mentre la nozione di convergenza in probabilità è abbastanza intuitiva (si richiede che con probabilità che tende ad <span class="math inline">\(1\)</span> le due variabili <span class="math inline">\(X_n\)</span> e <span class="math inline">\(X_\infty\)</span> siano vicine meno di <span class="math inline">\(\varepsilon\)</span>) il vantaggio della convergenza in media quadratica è di poter sfruttare le proprietà di calcolo legate al valor medio e alla varianza. Ad esempio, vale il seguente risultato:</p>
+<div class="proposition">
+<p>Siano <span class="math inline">\((X_n)_{n=1}^\infty\)</span> variabili aleatorie a valori in <span class="math inline">\(\R^d\)</span>. Allora <span class="math inline">\(X_n\)</span> converge verso una costante <span class="math inline">\(c \in \R^d\)</span> se e solo se <span class="math display">\[ \E{X_n} \to c \quad \text{e} \quad \Sigma_{X_n} \to 0.\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Dimostriamolo per semplicità nel caso reale, ossia <span class="math inline">\(d=1\)</span>. Calcoliamo <span class="math display">\[ \begin{split} \E{ |X_n - c|^2 } &amp; = \E{ |X_n - \E{X_n} + \E{X_n} - c|^2 } \\
+&amp; = \E{ |X_n - \E{X_n}|^2 } + \E{|\E{X_n} - c|^2 } \\
+&amp; \quad + 2 \E{ (X_n - \E{X_n})(\E{X_n} - c)}\\
+&amp; = \Var{X_n} + \E{|\E{X_n} - c|^2 }
+\end{split}\]</span> perché il doppio prodotto non contribuisce: <span class="math display">\[ \begin{split} \E{ (X_n - \E{X_n})(\E{X_n} - c)} &amp;  = \E{ (X_n - \E{X_n})} (\E{X_n} - c) \\
+&amp; = (  \E{X_n} - \E{X_n}) (\E{X_n} - c) = 0.
+\end{split}\]</span> L’espressione trovata è la somma di due quantità positive, è chiaro quindi che c’è convergenza in media quadratica verso una costante <span class="math inline">\(c\)</span> se e solo se entrambe convergono a zero.</p>
+</div>
+<p>Veniamo ora ad una definizione di convergenza basata sul secondo approccio. L’idea più semplice sarebbe di confrontare le densità delle <span class="math inline">\(X_n\)</span> con la densità del limite <span class="math inline">\(X_\infty\)</span>. Tuttavia tale nozione sarebbe poco utile nel caso in cui ad esempio le <span class="math inline">\(X_n\)</span> siano tutte discrete mentre il limite è continuo. Questo ostacolo si può superare confrontando invece le funzioni di ripartizione (nel caso di variabili reali) oppure, nel caso vettoriale, confrontando le <span class="math inline">\(\operatorname{MGF}\)</span> o le funzioni caratteristiche.</p>
+<div class="definition">
+<p>Siano <span class="math inline">\((X_n)_{n=1}^\infty\)</span> e <span class="math inline">\(X_\infty\)</span> variabili aleatorie a valori in <span class="math inline">\(\R^d\)</span>. Diciamo che <span class="math inline">\(X_n\)</span> converge verso <span class="math inline">\(X_\infty\)</span> <em>in legge</em> se</p>
+<ul>
+<li><p>nel caso <span class="math inline">\(d=1\)</span>, si ha <span class="math display">\[ \lim_{n \to \infty} \CDF_{X_n}(t)  = \CDF_X(t)\]</span> per ogni <span class="math inline">\(t \in \R\)</span> eccetto al più i punti <span class="math inline">\(t\)</span> in cui <span class="math inline">\(\CDF_X(t)\)</span> ha una discontinuità di tipo salto (ossia <span class="math inline">\(P(X=t)&gt;0\)</span>)</p></li>
+<li><p>nel caso generale <span class="math inline">\(d \ge 1\)</span>, si ha <span class="math display">\[  \lim_{n \to \infty} \MGF_{X_n}(t)  = \MGF_{X_\infty}(t)\]</span> per ogni <span class="math inline">\(t\)</span> in cui <span class="math inline">\(\MGF_{X_\infty}(t)\)</span> sia finita, supponendo che <span class="math inline">\(\MGF_X(t)\)</span> sia finita per <span class="math inline">\(t\)</span> sufficientemente piccolo. In alternativa, si può richiedere la convergenza delle funzioni caratteristiche per ogni <span class="math inline">\(\omega \in \R\)</span>, <span class="math display">\[ \lim_{n \to \infty} \varphi_{X_n}(\omega) =\varphi_{X_\infty}(\omega).\]</span></p></li>
+</ul>
+</div>
+<p>Se <span class="math inline">\(d=1\)</span> e la variabile <span class="math inline">\(X_\infty\)</span> ha densità continua, allora <span class="math inline">\(\CDF_{X_\infty}\)</span> è continua e possiamo richiedere la convergenza in ogni <span class="math inline">\(t \in \R\)</span>. Tuttavia la convergenza in legge richiede comunque meno della convergenza delle densità (anche supponendo che tutte le <span class="math inline">\(X_n\)</span> abbiano densità continua).</p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Osservazione</em>. </span>Il fatto che le due nozioni di convergenza in legge introdotto sopra siano equivalenti se <span class="math inline">\(d=1\)</span> è un risultato che non dimostriamo. Una ulteriore riformulazione della convergenza in legge è la seguente: vale <span class="math display">\[ \lim_{n \to \infty} \E{ g(X_n)} = \E{g(X_\infty)}\]</span> per ogni funzione <span class="math inline">\(g\)</span> continua ovunque e uniformemente limitata (ossia esiste una costante <span class="math inline">\(c\)</span> tale che <span class="math inline">\(|g(x)| \le c\)</span> per ogni <span class="math inline">\(x \in \R^d\)</span>).</p>
+</div>
+<p>È possibile mostrare, ma non lo faremo, che la convergenza in probabilità implica la convergenza in legge.</p>
+</section>
+<section id="sec-lln" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="sec-lln"><span class="header-section-number">8.2</span> Legge dei grandi numeri</h2>
+<p>La legge dei grandi numeri fornisce un supporto rigoroso all’intepretazione di probabilità di una affermazione <span class="math inline">\(A\)</span> come <em>frequenza relativa</em> con cui essa si realizza in una successione di esperimenti ripetuti, sotto le stesse condizioni, ma tutti indipendenti tra loro. In questa sezione ne diamo una dimostrazione usando la convergenza in media quadratica (e quindi in probabilità). Prima di affrontare il risultato generale, studiamo il caso più semplice delle estrazioni con rimpiazzo dal solito modello dell’urna.</p>
+<section id="modello-dellurna" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="modello-dellurna"><span class="header-section-number">8.2.1</span> Modello dell’urna</h3>
+<p>Supponiamo di avere un’urna in cui la frazione delle palline rosse è <span class="math inline">\(r \in [0,1]\)</span>. Allora se si effettuano <span class="math inline">\(n\)</span> estrazioni con rimpiazzo, il numero <span class="math inline">\(R_n\)</span> di palline rosse osservate ha densità binomiale di parametri <span class="math inline">\((n,r)\)</span>. In particolare ha valor medio <span class="math inline">\(\E{R_n} = nr\)</span> e varianza <span class="math inline">\(\Var{R_n} = nr(1-r)\)</span>, ossia deviazione standard <span class="math display">\[\sigma_{R_n} = \sqrt{ n r (1-r)}.\]</span> Ne segue che la frequenza relativa di palline rosse osservate (sulle <span class="math inline">\(n\)</span> estrazioni effettuate), <span class="math inline">\(R_n/n\)</span> ha valor medio <span class="math display">\[ \E{ R_n/n} = r\]</span> e varianza <span class="math display">\[  \Var{R_n/n}= \frac{n r(1-r)}{n^2} = \frac{r(1-r)}{n}.\]</span> Passando alla deviazione standard otteniamo per la frequenza relativa <span class="math display">\[ \sigma_{R_n/n} = \sqrt{ \frac{ r(1-r)}{n}}.\]</span></p>
+<p>Informalmente, possiamo quindi scrivere la seguente approssimazione: <span class="math display">\[ \frac{R_n}{n} \approx r \pm \sqrt{ \frac{ r(1-r)}{n}}.\]</span> Al tendere di <span class="math inline">\(n \to \infty\)</span> vediamo quindi che <span class="math inline">\(R_n/n\)</span> converge verso la frazione di palline rosse sul totale <span class="math inline">\(r\)</span>, che è anche la probabilità di estrarre una pallina rossa in una singola estrazione. Precisamente, al tendere di <span class="math inline">\(n \to \infty\)</span>, il valor medio di <span class="math inline">\(R_n/n\)</span> è costante e pari ad <span class="math inline">\(r\)</span>, mentre la varianza è infinitesima. Perciò, vale la convergenza in media quadratica <span class="math display">\[ \E{ \abs{ \frac{R_n}{n} - r}^2   } = \frac{ r(1-r)}{n} \to 0 \]</span> e quindi in probabilità <span class="math display">\[ P\bra{ \abs{ \frac{R_n}{n} - r} \le \varepsilon} \ge 1- \frac{ r(1-r)}{n} \to 1 .\]</span></p>
+<p>Questa è la versione della <em>legge dei grandi numeri</em> nel modello delle estrazioni dall’urna, che si estende ovviamente a una qualsiasi situazione in cui vi siano un grande numero, potenzialmente illimitato, di esperimenti ripetuti, tutti indipendenti tra loro, e ciascuno con probabilità di sucesso <span class="math inline">\(p \in [0,1]\)</span>. La <em>frequenza relativa del numero di successi sul totale degli esperimenti</em> converge quindi alla <em>probabilità di successo di un singolo esperimento</em>.</p>
+<p>Tale risulto permette l’intepretazione rigorosa di probabilità come frequenza, un punto di vista piuttosto diffuso ma che comunque fin dall’inizio abbiamo notato essere troppo restrittivo per molte applicazioni – in alcuni contesti non possiamo immaginare infiniti esperimenti ripetuti.</p>
+<p>La legge dei grandi numeri è comunque utile per la stima della probabilità <span class="math inline">\(p\)</span> di successo in un esperimento, qualora non fosse nota. Tornando all’esempio dell’urna e riprendendo l’esempio del robot, supponiamo infatti che inizialmente non sia informato della frazione di palline rosse in essa contenuta e quindi introduca una variabile aleatoria <span class="math inline">\(R\)</span> a valori in <span class="math inline">\([0,1]\)</span> (ad esempio a priori uniforme, ma una qualsiasi densità andrebbe bene lo stesso). Allora, può affermare che <span class="math display">\[ \begin{split} P( |R_n/n - R| \le \varepsilon ) &amp; = \int_0^1 P( |R_n/n - r| \le \varepsilon |R = r) dr \\
+&amp;  \ge 1- \frac{\int_0^1 r(1-r) dr }{n\varepsilon^2} = 1-  \frac{1}{6n \varepsilon^2}  \to 1
+\end{split}\]</span> per <span class="math inline">\(n \to \infty\)</span>, ossia con alta probabilità la frequenza relativa <span class="math inline">\(R_n/n\)</span> è vicina alla variabile <span class="math inline">\(R\)</span> (precisamente abbiamo mostrato la convergenza in probabilità). Notiamo che la probabilità calcolata sopra è rispetto all’informazione a priori, ossia prima di effettuare le estrazioni (o prima di essere informati dell’esito).</p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Osservazione</em>. </span>Nonostante l’apparente semplicità, la legge dei grandi numeri nel caso delle estrazioni dall’urna, o più in generale in situazioni di esperimenti indipendenti ripetuti con esito binario (successo/insuccesso) ha molteplici applicazioni. Usando questo risultato possiamo spiegare perché l’istogramma relativo ad <span class="math inline">\(n\)</span> osservazioni di variabili indipendenti, tutte con la stessa densità debba essere molto vicino al grafico della densità teorica. Abbiamo visto l’utilità di questo fatto nella sezione <a href="05-VA_gaussiane.html#sec-test" class="quarto-xref"><span>Sezione 5.8</span></a> per valutare l’ipotesi di gaussianità, ad esempio dei residui di una regressione.</p>
+<p>Siano infatti <span class="math inline">\((X_i)_{i=1}^n\)</span> variabili indipendenti tutte con la medesima densità (ad esempio continua). Allora supponendo di considerare un rettangolo di base <span class="math inline">\(a&lt;b \in \R\)</span>, l’istogramma delle frequenze (assolute) avrà altezza <span class="math inline">\(H(a,b)\)</span> pari al numero delle <span class="math inline">\(X_i\)</span> tali che <span class="math inline">\(a&lt;X_i \le b\)</span>, mentre quello delle densità è ulteriormente diviso il numero delle osservazioni <span class="math inline">\(n\)</span> e per la lunghezza della base <span class="math inline">\((b-a)\)</span>. Questa differenza è particolarmente rilevante se i rettangoli non hanno tutti la stessa lunghezza della base, mentre nel caso di basi con la stessa lunghezza è solamente una dilatazione nell’asse delle ordinate.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># usiamo i dati del dataset Iris</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">freq=</span><span class="cn">TRUE</span>, <span class="at">col=</span>miei_colori[<span class="dv">1</span>], <span class="at">main=</span><span class="st">""</span>, <span class="at">xlab=</span><span class="st">"lunghezza sepali"</span>, <span class="at">ylab=</span><span class="st">"frequenza"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">freq=</span><span class="cn">FALSE</span>, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">main=</span><span class="st">""</span>, <span class="at">xlab=</span><span class="st">"lunghezza sepali"</span>, <span class="at">ylab=</span><span class="st">"densità"</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-teoremi_limite_files/figure-html/unnamed-chunk-2-1.svg" class="img-fluid figure-img" width="480"></p>
+<figcaption>confronto tra istogramma delle frequenze (a sinistra) e delle densità (a destra)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Possiamo quindi pensare ad un “successo” se <span class="math inline">\(X_i \in (a,b]\)</span>, con probabilità <span class="math display">\[ r = P(X_1 \in (a,b]) = \int_a^b p(X_1 = x) dx\approx p(X_1=a)(b-a),\]</span> dove nell’ultima approssimazione supponiamo la densità abbastanza regolare e <span class="math inline">\(b-a\)</span> sufficientemente piccolo.</p>
+<p>Considerando <span class="math inline">\(n\)</span> esperimenti indipendenti si avrà quindi che <span class="math display">\[ \frac{ H(a,b)}{n} \approx r  \pm \sqrt{ \frac{ r(1-r)}{n}} \approx p(X_1=a)(b-a),\]</span> e quindi l’istogramma delle densità, che ha altezza <span class="math inline">\(H(a,b)/(n(b-a))\)</span>, è, con alta probabilità vicino alla densità comune. Un ragionamento simile si può effettuare anche per variabili discrete, e pure per le funzioni di ripartizione e i quantili (giustificando anche l’approccio qualitativo all’ipotesi di gaussianità mediante QQ-plot).</p>
+</div>
+<!--- Una domanda diversa riguarda invece la probabilità dello stesso evento avendo osservato di aver estratto $R_n = k$ palline rosse, ossia 
+$$ P( |R_n/n -R| \le \varepsilon | R_n =k) = P( |k/n -R| \le \varepsilon | R_n =k).$$
+In tal caso, usando la formula di Bayes, bisogna trovare la densità di $R$ a posteriori
+$$ \begin{split} p(R = r| R_n = k) & \propto p(R=r) p(R_n = k | R=r) \\
+& \propto {n \choose k} r^k (1-r)^{n-k}\\
+& \propto r^k (1-r)^{n-k}
+\end{split}$$
+Il massimo della densità (ossia la stima di massima verosimiglianza per $R$) si trova imponendo che la derivata si annulli:
+$$ kr^{k-1}(1-r)^{n-k} - (n-k)r^k (1-r)^{n-k-1}  =0.$$
+da cui $r_{\mle} = k/n$. Possiamo allora confrontare la probabilità che $R$ disti più di un fissato $\varepsilon>0$ da $r_{\mle} = k/n$ con l'alternativa, nel seguente modo
+-->
+</section>
+<section id="un-risultato-generale" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="un-risultato-generale"><span class="header-section-number">8.2.2</span> Un risultato generale</h3>
+<p>Il risultato valido per la frequenza relativa dei successi in <span class="math inline">\(n\)</span> esperimenti indipendenti si può estendere a situazioni più generali, in cui l’esito di ciascun “esperimento” sia una variabile aleatoria <span class="math inline">\(X_i\)</span> a valori reali (in realtà anche vettoriali, ma non ce ne occupiamo per semplicità). Immaginiamo la situazione in cui si effettuano più misurazioni di una medesima quantità, affette da errori, se presenti, indipendenti o comunque poco correlati tra loro (dovuti ad esempio a circostanze esterne che non possiamo controllare). Allora la frequenza relativa dei successi può essere sostituita dalla media empirica <span class="math display">\[ \bar{X}_n = \frac 1 n \sum_{i=1}^n X_i,\]</span> che è una variabile aleatoria (come abbiamo già osservato nella sezione precedente la legge dei grandi numeri è un risultato di convergenza rispetto all’informazione a priori, ossia prima di essere informati degli esiti degli esperimenti, quindi <span class="math inline">\(\bar{X}_n\)</span> non è nota).</p>
+<p>Nel caso degli esperimenti, per dedurre la convergenza in media quadratica delle frequenze relative, abbiamo usato il fatto che la legge della somma <span class="math inline">\(\sum_{i=1}^nX_i\)</span>, ossia il numero di successi, ha densità discreta binomiale di parametri <span class="math inline">\((n,p)\)</span>. Tuttavia ripercorrendo l’argomento, basta conoscere molto meno: infatti è sufficiente che il valor medio <span class="math inline">\(\E{\bar{X}_n}\)</span> converga a una costante <span class="math inline">\(m\)</span> e la varianza <span class="math inline">\(\Var{\bar{X}_n}\)</span> sia infinitesima per <span class="math inline">\(n \to \infty\)</span>: sotto queste condizioni infatti il criterio della Sezione <a href="#sec-convergenze" class="quarto-xref"><span>Sezione 8.1</span></a> garantisce la convergenza <span class="math inline">\(\lim_{n \to \infty} \bar{X}_n = m\)</span>.</p>
+<p>Sfruttando questa osservazione, enunciamo il seguente risultato, noto appunto come legge dei grandi numeri<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Notiamo che l’indipendenza può essere indebolita richiedendo solo l’assenza di correlazione.</p>
+<div class="theorem" name="legge dei grandi numeri">
+<p>Siano <span class="math inline">\((X_n)_{n =1}^\infty\)</span> variabili aleatorie non correlate, tutte con lo stesso valor medio e varianza <span class="math display">\[ \E{X_n} = m, \quad \Var{X_n} = \sigma^2 &lt; \infty.\]</span> Allora, si ha la convergenza in media quadratica (e quindi in probabilità) <span class="math display">\[ \lim_{n \to \infty} \frac{1}{n} \sum_{i=1}^n X_i = m.\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Posta <span class="math inline">\(\bar{X}_n = \frac 1 n \sum_{i=1}^n X_i\)</span> la media campionaria, usiamo la linearità per calcolare<br>
+<span class="math display">\[\begin{split} \E{\bar{X}_n } &amp; = \E{ \frac  1 n \sum_{i=1}^n X_i}   = \frac 1 n \sum_{i=1}^n \E{X_i} = \frac 1 n \sum_{i=1}^n m \\
+&amp; = m \end{split}\]</span> e l’ipotesi <span class="math inline">\(\Cov{X_i, X_j} = 0\)</span> per <span class="math inline">\(i \neq j\)</span> per ottenere che <span class="math display">\[\begin{split} \Var{\bar{X}_n } &amp; = \frac 1 {n^2}  \Var{\sum_{i=1}^n X_i}\\
+&amp; = \frac 1 {n^2} \sum_{i=1}^n \Var{X_i} \\
+&amp; = \frac 1{n^2 } \sum_{i=1}^n \sigma^2 \\
+&amp; = \frac{1}{n^2} \cdot  n \sigma^2 \\
+&amp; = \frac{\sigma^2}{n},
+\end{split}\]</span> che al tendere di <span class="math inline">\(n \to \infty\)</span> è infinitesima.</p>
+</div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Osservazione</em>. </span>Dalla dimostrazione segue che la deviazione standard della variabile <span class="math inline">\(\bar{X}_n\)</span> è <span class="math display">\[\sigma_{\bar{X}_n} = \sqrt{ \Var{ \bar{X}_n}} = \frac{\sigma}{\sqrt{n}},\]</span> e quindi informalmente possiamo scrivere <span class="math display">\[ \bar{X}_n = m \pm  \frac{\sigma}{\sqrt{n}}.\]</span></p>
+</div>
+<p>La legge dei grandi numeri è un risultato generale, che può essere applicato in molteplici situazioni. Ad esempio, ricordando la definizione di varianza campionaria <span class="math display">\[ \bar{\sigma}^2_n = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X}_n)^2,\]</span> è possibile usare la legge dei grandi numeri per dedurre la convergenza in media quadratica e in probabilità di <span class="math display">\[ \lim_{n \to \infty} \bar{\sigma}^2_n = \sigma^2,\]</span> supponendo ad esempio che le <span class="math inline">\((X_i)_i\)</span> siano tutte indipendenti, tutte con le stessa legge e dotate di momento quarto finito, quindi in particolare i momenti sono tutti uguali: <span class="math display">\[ m_1 = \E{X_i}, \quad m_2 = \E{X_i^2}.\]</span> Infatti, basta riscrivere la varianza campionaria nel modo alternativo <span class="math display">\[ \bar \sigma_n^2 = \frac 1 n \sum_{i=1}^n X_i^2 - (\bar{X_n})^2 = \overline{ (X^2)}_n - (\bar{X_n})^2,\]</span> e notare che sotto l’ipotesi di momento quarto finito e indipendenza, non solo <span class="math display">\[\lim_{n \to \infty }\bar{X_n} = m_1,\]</span> ma anche <span class="math display">\[ \lim_{n \to \infty} \overline{ (X^2)}_n = m_2.\]</span> Di conseguenza, usando la definizione di convergenza, si può argomentare che <span class="math display">\[ \lim_{n \to \infty }\bar\sigma_n^2 = \lim_{n \to \infty} \sqa{ \overline{ (X^2)}_n - (\bar{X_n})^2} = m_2 - m_1^2 = \sigma^2.\]</span></p>
+</section>
+</section>
+<section id="sec-ergodic" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="sec-ergodic"><span class="header-section-number">8.3</span> Teoremi Ergodici</h2>
+<p>L’argomento che ha portato alla dimostrazione della legge dei grandi numeri nella sezione precedente usa fortemente l’ipotesi di non correlazione tra le variabili <span class="math inline">\((X_i)_{i=1}^\infty\)</span>. Senza questa ipotesi, la varianza della media campionaria è in generale la somma di <span class="math inline">\(n^2\)</span> termini <span class="math display">\[ \Var{ \bar {X}_n} = \frac{1}{n^2} \sum_{i,j=1}^n\Cov{X_i, X_j},\]</span> e quindi non segue necessariamente che sia infinitesima, anche tenendo in conto del denominatore <span class="math inline">\(n^2\)</span>. Questo tuttavia può accadere se <span class="math inline">\(\Cov{X_i, X_j}\)</span> è infinitesimo per “molte” coppie, come avviene spesso nel caso di processi stocastici.</p>
+<p>Dato infatti un processo stocastico <span class="math inline">\((X_t)_{t = 1}^\infty\)</span>, ad esempio sull’insieme dei tempi <span class="math inline">\(\mathcal{T} = \cur{1,2,3\ldots}\)</span>, la media <span class="math inline">\(\bar{X}_T = \frac 1 T \sum_{t=1}^T X_t\)</span> si può pensare come alla media della traiettoria del processo sui primi <span class="math inline">\(T\)</span> tempi. Più in generale, se l’insieme degli stati <span class="math inline">\(E\)</span> del processo non è un sottoinsieme di <span class="math inline">\(\R\)</span>, si può considerare una qualsiasi funzione <span class="math inline">\(g:E \to \R\)</span> e considerare la media <span class="math display">\[ \overline{ g(X)}_T = \frac 1 T \sum_{t=1}^T g(X_t).\]</span> La funzione <span class="math inline">\(g\)</span> è anche detta anche <em>osservabile</em> e rappresenta una quantità misurabile a partire dal processo. La legge dei grandi numeri in questo caso riguarda la convergenza al tendere dei tempi all’infinito delle variabili aleatorie <span class="math inline">\(\overline{ g(X)}_T\)</span>, <span class="math display">\[ \lim_{T \to \infty }\overline{ g(X)}_T. \]</span> Se si suppone che il processo <span class="math inline">\((X_t)_t\)</span> sia stazionario, è possibile identificare il limite (se esiste) come il valor medio di <span class="math inline">\(g\)</span> rispetto alla legge marginale in un qualsiasi istante, ad esempio nel caso di <span class="math inline">\(E\)</span> discreto <span class="math display">\[ \E{g(X_i)} = \sum_{ x \in E} g(x) P(X_i=x).\]</span></p>
+<div class="example">
+<p>Consideriamo come osservabile <span class="math inline">\(g\)</span> la funzione indicatrice di un qualsiasi stato <span class="math inline">\(x_0 \in E\)</span>, <span class="math display">\[ g(x) = \begin{cases} 1 &amp; \text{se $x = x_0$}\\
+0 &amp; \text{se $x \neq x_0$.}\end{cases}\]</span> Allora <span class="math inline">\(\overline{g(X)}_T\)</span> è la frazione di tempo trascorsa dal processo sullo stato <span class="math inline">\(x_0\)</span>, dal tempo <span class="math inline">\(t=1\)</span> al tempo <span class="math inline">\(t=T\)</span>. Il valor medio invece è semplicemente la probabilità <span class="math inline">\(\E{g(X_i)} = P(X_i = x_0)\)</span>. La stessa cosa avviene se invece dell’indicatrice di uno stato, si considera l’indicatrice di un sottoinsieme <span class="math inline">\(E_0 \subseteq E\)</span> di stati.</p>
+</div>
+<p>La possibilità di identificare le due medie, quella sui tempi <span class="math inline">\(\overline{g(X)}_T\)</span> e quella sugli stati <span class="math inline">\(\E{g(X_i)}\)</span> è in un certo senso analoga all’intepretazione della probabilità come limite delle frequenze sugli esperimenti ripetuti. Risultati che garantiscono tale possibilità sono storicamente detti <em>teoremi ergodici</em>, un termine che proviene dalla meccanica statistica.</p>
+<p>Con una opportuna variante dell’argomento per la legge dei grandi numeri, possiamo mostrare il seguente risultato.</p>
+<div class="theorem" name="teorema ergodico">
+<p>Sia <span class="math inline">\((X_t)_{t =0}^\infty\)</span> un processo stazionario sull’insieme degli stati <span class="math inline">\(E\)</span> e sia <span class="math inline">\(g: E \to \R\)</span> una osservabile. Se <span class="math display">\[ \lim_{t \to \infty} \Cov{g(X_0), g(X_t)} = 0,\]</span> allora vale la convergenza in media quadratica e in probabilità <span class="math display">\[ \lim_{ T \to \infty} \overline{g(X)}_T = \E{ g(X_0)}.\]</span> (dove per semplicità abbiamo specificato <span class="math inline">\(X_0\)</span>, ma un qualsiasi altro tempo <span class="math inline">\(X_t\)</span> sarebbe lo stesso, essendo il processo stazionario).</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Poniamo per semplicità di notazione <span class="math inline">\(Y_t = g(X_t)\)</span>. L’ipotesi di stazionarietà di <span class="math inline">\((X_t)\)</span> implica che anche <span class="math inline">\((Y_t)\)</span> sia stazionario e quindi la sua funzione di autocovarianza soddisfa <span class="math display">\[ C(s,t) =  C(0, |t-s|) = \Cov{g(X_0), g(X_{|t-s|})},\]</span> che per ipotesi è infinitesima al tendere di <span class="math inline">\(|t-s| \to \infty\)</span>. Consideriamo ora il valor medio e la varianza della variabile aleatoria <span class="math display">\[\bar{Y}_T = \frac 1 T \sum_{t=1}^TY_t.\]</span> Per linearità del valor medio e stazionarietà <span class="math display">\[ \E{ \bar{Y}_T} = \frac 1 T \sum_{t=1}^T \E{Y_t} = \E{Y_0} = \E{g(X_0)}\]</span> è costante, mentre per la varianza scriviamo <span class="math display">\[\Var{\bar{Y}_T } = \frac 1 {T^2} \sum_{s,t=1}^T C(s,t) = \frac 1 {T^2} \sum_{s,t=1}^T C(0,|t-s|) .\]</span> Osserviamo che, per ciascun <span class="math inline">\(k=0, \ldots, T\)</span>, vi sono al più <span class="math inline">\(2T\)</span> coppie <span class="math inline">\((s,t)\)</span> nella somma sopra con <span class="math inline">\(|t-s| = k\)</span> (corrispondenti al casi <span class="math inline">\(t=s+k\)</span> e <span class="math inline">\(t=s-k\)</span>). Pertanto possiamo stimare <span class="math display">\[ \frac 1 {T^2} \sum_{s,t=1}^T C(0,|t-s|) \le \frac{1}{T^2} \sum_{k=0}^T 2 T |C(0,k)| \le \frac{2}{T} \sum_{k=0}^T  |C(0,k)|.\]</span> Il fatto che la somma sopra sia infinitesima, grazie all’ipotesi che <span class="math inline">\(C(0,k)\)</span> lo sia, è una conseguenza nota di un teorema di analisi dovuto a Cesaro. Ecco i dettagli: fissato <span class="math inline">\(\varepsilon&gt;0\)</span>, sia <span class="math inline">\(k_{\varepsilon}\)</span> tale che, <span class="math display">\[
+\text{ se $k&gt; k_{\varepsilon}$, allora $|C(0,k)| &lt; \varepsilon$.}
+\]</span> Ne segue che <span class="math display">\[ \frac{2}{T} \sum_{k=0}^T  |C(0,k)| \le \frac{2}{T} \sum_{k=0}^{k_\varepsilon} |C(0,k)| + \frac{2}{T} |T-k_{\varepsilon}| \varepsilon\]</span> e il membro di destra al tendere di <span class="math inline">\(T \to \infty\)</span> è più piccolo di <span class="math inline">\(2 \varepsilon\)</span>. Essendo <span class="math inline">\(\varepsilon\)</span> arbitrariamente piccolo, concludiamo che <span class="math display">\[\lim_{ T \to \infty} \frac{2}{T} \sum_{k=0}^T  |C(0,k)| = 0.\]</span></p>
+</div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Osservazione</em>. </span>Con un argomento simile si può ottenere un teorema ergodico anche nel caso di processi a tempi continui (con applicazioni ad esempio ai processi di Markov a salti). In tal caso la media sui tempi va intesa come l’integrale <span class="math display">\[ \overline{g(X)}_T = \frac 1 T \int_0^T g(X_t) dt.\]</span></p>
+</div>
+<p>Per applicare il teorema è quindi importante verificare, oltre alla stazionarietà del processo, l’ipotesi sul limite della funzione di autocovarianza (detta anche appunto ipotesi di ergodicità). In molti modelli è possibile argomentare in generale che essa vale. Diamo i seguenti risultati senza vederne la dimostrazione.</p>
+<div class="theorem">
+<p>Sia <span class="math inline">\((X_t)_{t}\)</span> una catena di Markov stazionaria e irriducibile su un insieme di stati finito <span class="math inline">\(E\)</span>. Allora per ogni <span class="math inline">\(g: E  \to \R\)</span> vale la convergenza <span class="math display">\[ \lim_{ T \to \infty} \overline{g(X)}_T =  \sum_{i \in E} g(i) \pi_i,\]</span> dove <span class="math inline">\(\pi = (\pi_i)_{i\in E}\)</span> è l’unica distribuzione invariante per la catena.</p>
+</div>
+<p>In particolare, la frazione di tempo trascorsa dalla catena su uno stato è, nel limite, pari alla probabilità che la catena si trovi su quello stato.</p>
+<p>Un teorema analogo vale per processi di Markov a salti, dove la media nel tempo è intesa come integrale. Vediamo infine il caso dei processi a stati continui. In questo caso siamo interessati alla convergenza delle medie e delle funzioni di autocovarianza campionarie.</p>
+<div class="theorem">
+<p>Sia <span class="math inline">\((X_t)_{t}\)</span> un processo <span class="math inline">\(\operatorname{ARIMA}(p,0,q)\)</span> stazionario. Allora <span class="math display">\[ \lim_{T \to \infty} \overline{X}_T = 0,\]</span> e per ogni <span class="math inline">\(t\in \mathbb{N}\)</span>, <span class="math display">\[ \lim_{T \to \infty} \frac 1 T \sum_{s=1}^T X_s X_{s+t} = C(0,t).\]</span></p>
+</div>
+<p>L’ultimo limite sopra mostra che la funzione di autocovarianza empirica converge a quella teorica: questo teorema, che pure vale per processi stazionari anche più generali degli ARIMA, giustifica ulteriormente l’uso della funzione di autocorrelazione empirica (tramite ad esempio la funzione <code>acf()</code> in <span class="math inline">\(R\)</span>) per stimare quella teorica.</p>
+</section>
+<section id="sec-clt" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="sec-clt"><span class="header-section-number">8.4</span> Il teorema limite centrale</h2>
+<p>Il teorema limite centrale è un raffinamento della legge dei grandi numeri, in cui si rende più precisa la convergenza delle medie empiriche, mostrando che le oscillazioni sono approssimabili tramite variabili gaussiane, qualsiasi fosse la distribuzione delle variabili di partenza. Questo risultato di “universalità” delle densità gaussiane fornisce quindi una ulteriore giustificazione della loro applicazione così diffusa in molteplici ambiti.</p>
+<section id="il-modello-dellurna" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="il-modello-dellurna"><span class="header-section-number">8.4.1</span> Il modello dell’urna</h3>
+<p>Torniamo all’esempio delle estrazioni con rimpiazzo da un’urna contenente una frazione <span class="math inline">\(r \in (0,1)\)</span> di palline rosse. Posto <span class="math inline">\(R_n\)</span> il numero di palline rosse estratte, la legge dei grandi numeri afferma (in versione informale) che vale l’approssimazione <span class="math display">\[ \frac{R_n}{n} \approx r \pm \sqrt{ \frac{ r(1-r) }{n}}.\]</span> Il teorema limite centrale rende più preciso il simbolo <span class="math inline">\(\pm\)</span>, mostrando che per una variabile gaussiana <span class="math inline">\(Z\)</span> standard, ossia <span class="math inline">\(\mathcal{N}(0,1)\)</span>, vale <span class="math display">\[ \frac{R_n}{n} \approx r + Z \sqrt{ \frac{ r(1-r) }{n}},\]</span> dove l’approssimazione è nel senso della convergenza in legge. Equivalentemente, la variabile binomiale <span class="math inline">\(R_n\)</span> si approssima quindi con una variabile gaussiana avente la stessa media <span class="math inline">\(nr\)</span> e varianza <span class="math inline">\(n r(1-r)\)</span>. Possiamo visualizzare questo risultato graficamente confrontando la densità discreta binomiale e la gaussiana corrispondente.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>r<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">3</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>k<span class="ot">=</span><span class="dv">0</span><span class="sc">:</span>n</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(k, <span class="fu">dbinom</span>(k, n, r), <span class="at">type=</span><span class="st">'s'</span>, <span class="at">lwd=</span><span class="dv">3</span>, <span class="at">col=</span>miei_colori[<span class="dv">4</span>], <span class="at">ylab=</span><span class="st">'probabilità'</span>, <span class="at">main=</span><span class="st">'densità binomiale'</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(k, <span class="fu">dnorm</span>(k, <span class="at">mean=</span>r<span class="sc">*</span>n, <span class="at">sd=</span><span class="fu">sqrt</span>(r<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>r)<span class="sc">*</span>n)), <span class="at">type=</span><span class="st">'l'</span>, <span class="at">lwd=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="st">'densità'</span>, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">main=</span><span class="st">'densità gaussiana'</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-teoremi_limite_files/figure-html/unnamed-chunk-3-1.svg" class="img-fluid figure-img" width="480"></p>
+<figcaption>confronto tra densità binomiale di parametri <span class="math inline">\(n=50\)</span>, <span class="math inline">\(r=1/3\)</span> e la densità gaussiana con medesima media <span class="math inline">\(nr\)</span> e varianza <span class="math inline">\(nr(1-r)\)</span>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>L’approssimazione vale nel senso della convergenza in legge (quindi si confrontano le <span class="math inline">\(\CDF\)</span> piuttosto che le densità). Per ogni intervallo <span class="math inline">\([a,b]\subseteq \R\)</span> (anche con <span class="math inline">\(a = -\infty\)</span> oppure <span class="math inline">\(b = \infty\)</span>), si ha che <span class="math display">\[ \lim_{n \to \infty} P\bra{  a \sqrt{ \frac{ r(1-r) }{n}} \le  \frac{R_n}{n } -r \le  b\sqrt{ \frac{ r(1-r) }{n}}  }  =  \int_a^b \exp\bra{-\frac{ z^2}{2} } \frac{dz}{\sqrt{ 2 \pi}}.\]</span></p>
+<p>Per trattare meglio la convergenza conviene introdurre le variabili standardizzate delle <span class="math inline">\(R_n/n\)</span>, ossia <span class="math display">\[Z_n = \bra{ \frac{R_n}{n}-r} \sqrt{ \frac{n }{r(1-r)}},\]</span> in modo che la convergenza in legge sia <span class="math inline">\(\lim_{n \to \infty} Z_n = Z\)</span>, ossia <span class="math display">\[ \CDF_{Z_n}(t) \to \CDF_Z(t)\]</span> per ogni <span class="math inline">\(t \in \R\)</span>. Possiamo verificare numericamente la validità di questa approssimazione scrivendo <span class="math inline">\(\CDF_{Z_n}\)</span> in termini della <span class="math inline">\(\CDF_{R_n}\)</span>, che è binomiale. Usando l’identità <span class="math display">\[ \CDF_{aX+b}(t) = \CDF_X((t-b)/a)\]</span> valida per <span class="math inline">\(a&gt;0\)</span>, <span class="math inline">\(b\in \R\)</span>, possiamo scrivere <span class="math display">\[ \CDF_{Z_n}(t) = \CDF_{R_n}\bra{ n r + t \sqrt{nr(1-r)} },\]</span> e visualizzare graficamente tramite opportuni comandi R.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>r<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by=</span><span class="fl">0.001</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, <span class="fu">pnorm</span>(t), <span class="at">type=</span><span class="st">'l'</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">xlab=</span><span class="st">'t'</span>, <span class="at">ylab=</span><span class="st">'CDF'</span>, <span class="at">main=</span><span class="st">"n=10"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">10</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, <span class="fu">pbinom</span>( n<span class="sc">*</span>r <span class="sc">+</span> t <span class="sc">*</span><span class="fu">sqrt</span>(n <span class="sc">*</span> r <span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>r)) , n, r),<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>miei_colori[<span class="dv">4</span>])</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, <span class="fu">pnorm</span>(t), <span class="at">type=</span><span class="st">'l'</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">xlab=</span><span class="st">'t'</span>, <span class="at">ylab=</span><span class="st">''</span>, <span class="at">main=</span><span class="st">'n=50'</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, <span class="fu">pbinom</span>( n<span class="sc">*</span>r <span class="sc">+</span> t <span class="sc">*</span><span class="fu">sqrt</span>(n <span class="sc">*</span> r <span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>r)) , n, r),<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>miei_colori[<span class="dv">4</span>])</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, <span class="fu">pnorm</span>(t), <span class="at">type=</span><span class="st">'l'</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">xlab=</span><span class="st">'t'</span>,<span class="at">ylab=</span><span class="st">''</span>, <span class="at">main=</span><span class="st">'n=100'</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, <span class="fu">pbinom</span>( n<span class="sc">*</span>r <span class="sc">+</span> t <span class="sc">*</span><span class="fu">sqrt</span>(n <span class="sc">*</span> r <span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>r)) , n, r),<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span>miei_colori[<span class="dv">4</span>])</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-teoremi_limite_files/figure-html/unnamed-chunk-4-1.svg" class="img-fluid figure-img" width="480"></p>
+<figcaption>confronto tra le <span class="math inline">\(\CDF_{Z_n}\)</span> e <span class="math inline">\(\CDF_Z\)</span> al crescere di <span class="math inline">\(n\)</span>.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="il-caso-generale" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="il-caso-generale"><span class="header-section-number">8.4.2</span> Il caso generale</h3>
+<p>Nonostante l’evidente validità dell’approssimazione, la dimostrazione della convergenza richiederebbe qualche calcolo non del tutto immediato già nel caso delle estrazioni dall’urna. Perciò affrontiamo direttamente una dimostrazione del risultato generale per l’approssimazione gaussiana delle medie campionarie di variabili indipendenti. Tale teorema è noto come <em>teorema limite centrale</em>, dove l’aggettivo “centrale” si riferisce all’importanza (appunto, centrale) tra i teoremi limite nella teoria della probabilità (in particolare, non ha a che fare con il fatto che le variabili siano centrate perché standardizzate).</p>
+<p>Ricordiamo che informalmente, la legge dei grandi numeri si scriveva come l’approssimazione <span class="math display">\[ \bar{X}_n \approx m \pm \frac{\sigma}{\sqrt{n}}.\]</span> Come nel caso delle estrazioni dall’urna, possiamo rendere più preciso il simbolo <span class="math inline">\(\pm\)</span> introducendo una variabile gaussiana <span class="math inline">\(Z\)</span> standard <span class="math inline">\(\mathcal{N}(0,1)\)</span>.</p>
+<div class="theorem" name="teorema limite centrale">
+<p>Siano <span class="math inline">\((X_n)_{n=1}^\infty\)</span> variabili aleatorie reali indipendenti, tutte con la stessa legge e quindi valor medio <span class="math display">\[ m = \E{X_n}\]</span> e varianza <span class="math display">\[\sigma^2 = \Var{X_n} \in (0, \infty)\]</span> (che supponiamo finita). Allora, posta <span class="math inline">\(\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i\)</span> la media campionaria e <span class="math display">\[Z_n = (\bar{X}_n  -m ) \frac{ \sqrt{ n}}{\sigma}\]</span> la sua standardizzata, si ha la convergenza in legge <span class="math display">\[ \lim_{n \to \infty }Z_n = Z,\]</span> dove <span class="math inline">\(Z\)</span> è gaussiana standard. Esplicitamente, per ogni <span class="math inline">\([a,b] \subseteq \R\)</span>, vale <span class="math display">\[ \lim_{n \to \infty} P( Z_n \in [a,b]) =  \lim_{n \to \infty} P\bra{ a \sigma/\sqrt{n}\le  \bar{X_n} - m  \le b \sigma /\sqrt{n}} =   \int_a^b e^{-z^2/2} \frac{dz}{\sqrt{2 \pi}}.\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Osserviamo subito che vale l’identità <span class="math display">\[ Z_n = \frac{1}{\sqrt {n}} \sum_{i=1}^n X'_i,\]</span> dove <span class="math inline">\(X_i' = (X_i - m)/\sigma\)</span> è la standardizzata di <span class="math inline">\(X_n\)</span>. Invece di dimostrare la convergenza delle <span class="math inline">\(\CDF\)</span> mostriamo quella delle <span class="math inline">\(\MGF\)</span>, che supponiamo finita. Abbiamo già osservato nella Sezione <a href="#sec-convergenze" class="quarto-xref"><span>Sezione 8.1</span></a> che le due convergenze sono caratterizzazioni equivalenti della convergenza in legge (senza dimostrarlo). Il vantaggio di usare la <span class="math inline">\(\MGF\)</span> è che, grazie all’indipendenza, <span class="math display">\[ \begin{split} \MGF_{Z_n}(t) &amp; = \MGF_{\sum_{i=1}^n X'_i} (t/\sqrt{n}) = \prod_{i=1}^n \MGF_{X'_i}(t/\sqrt{n})\\
+&amp; =\bra{  \MGF_{X'_1}(t/\sqrt{n})}^n,\end{split}\]</span> dove nell’ultimo passaggio abbiamo usato che le leggi delle <span class="math inline">\(X_i'\)</span> sono tutte uguali, e quindi anche le <span class="math inline">\(\MGF_{X'_i}\)</span>. Ricordando che le derivate in <span class="math inline">\(t=0\)</span> della <span class="math inline">\(\MGF\)</span> sono i momenti e che le <span class="math inline">\(X'_i\)</span> sono standardizzate, possiamo scrivere lo sviluppo di Taylor <span class="math display">\[\begin{split} \MGF_{X'_1}(s) &amp; = 1 +  \E{X'_1} s  + \E{(X'_1)^2} \frac{s^2}{2} + o(s^2)\\
+&amp; = 1 + \frac{s^2}{2} + o(s^2).\end{split}\]</span> Con la sostituzione <span class="math inline">\(s = t/\sqrt{n}\)</span>, si trova <span class="math display">\[ \MGF_{Z_n}(t) = \bra{ 1 + \frac{t^2}{2 n} + o (1/n)}^n\]</span> che al tendere di <span class="math inline">\(n \to \infty\)</span> è il limite notevole <span class="math inline">\((1+x/n)^n \to e^x\)</span>, da cui <span class="math display">\[ \MGF_{Z_n}(t)  \to e^{t^2/2} = \MGF_Z(t),\]</span> avendo riconosciuto la <span class="math inline">\(\MGF\)</span> della gaussiana standard.</p>
+</div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Osservazione</em>. </span>Il teorema limite centrale, come la legge dei grandi numeri, ammette svariate estensioni. Una di queste tratta il caso di variabili aleatorie vettoriali, ossia a valori in <span class="math inline">\(\R^d\)</span>. Si può infatti mostrare che se le <span class="math inline">\((X_i)_{i=1}^\infty\)</span> sono indipendenti, tutte con la medesima legge e in particolare stesso vettore dei valor medi <span class="math inline">\(m\in \R^d\)</span> e matrice delle covarianze <span class="math inline">\(\Sigma\)</span>, allora si ha la convergenza in legge <span class="math display">\[ \bra{ \bar{X}_n - m} \sqrt{n} \to Z\]</span> dove <span class="math inline">\(Z\)</span> è una variabile gaussiana vettoriale con densità <span class="math inline">\(\mathcal{N}(0, \Sigma)\)</span>.</p>
+</div>
+</section>
+</section>
+<section id="sec-montecarlo" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="sec-montecarlo"><span class="header-section-number">8.5</span> Cenni ai metodi Monte Carlo</h2>
+<p>Una delle applicazioni principali dei teoremi limite è di utilizzarli insieme alle tecniche di <em>generazione</em> di numeri pseudo-casuali mediante opportuni algoritmi (che non descriviamo nel dettaglio). Tramite semplici comandi in R ad esempio, è possibile <em>simulare</em> variabili aleatorie con densità comuni (uniformi, binomiali, poisson, esponenziali, gaussiane ecc.).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Il comando per simulare una o più variabili aleatorie con una data densità si ottiene con il prefisso `r` seguito dall'abbreviazione della densità. Vediamo ad esempio con le gaussiane.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>gaussiane <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">3</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># il comando genera i dati associati all'osservazione di 100 variabili gaussiane indipendenti.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(gaussiane, <span class="at">freq=</span><span class="cn">FALSE</span>, <span class="at">col=</span>miei_colori[<span class="dv">1</span>], <span class="at">xlab=</span><span class="st">"valore"</span>, <span class="at">ylab=</span><span class="st">"densità"</span>, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>intervallo <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="at">by=</span><span class="fl">0.01</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(intervallo, <span class="fu">dnorm</span>(intervallo, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">3</span>), <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">lwd=</span><span class="dv">3</span> )</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(gaussiane, <span class="at">col=</span>miei_colori[<span class="dv">1</span>], <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(gaussiane, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">lwd=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-teoremi_limite_files/figure-html/unnamed-chunk-5-1.svg" class="img-fluid figure-img" width="480"></p>
+<figcaption>istogramma e qqplot di 200 variabili gaussiane indipendenti</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Con opportune estensioni (ad esempio le librerie JAGS o Stan) si può realizzare variabili con densità più complesse. Le tecniche principali consistono nel simulare opportune catene di Markov.</p>
+<p>Oltre a fornire dati aleatori ma in un certo senso “controllati” su cui testare esempi e metodi, la simulazione di variabili aleatorie può essere inserita in opportuni algoritmi, che portano il nome di metodi Monte Carlo, in cui anche problemi che non riguardano la probabilità sono affrontabili mediante simulazioni di un gran numero di variabili.</p>
+<p>Per fare un esempio, si supponga di dover calcolare l’integrale <span class="math display">\[ \int_{\R^d} g(x) p(X=x) d x,\]</span> dove <span class="math inline">\(g\)</span> e <span class="math inline">\(p\)</span> sono note e regolari, ma la dimensione <span class="math inline">\(d\)</span> è molto elevata. Ricorrendo ad una simulazione (purche non abbia costi computazionali onerosi) di <span class="math inline">\(n\)</span> variabili indipendenti, tutte con densità <span class="math inline">\(p(X=\cdot)\)</span>, allora la legge dei grandi numeri assicura che per <span class="math inline">\(n\)</span> grande, <span class="math display">\[ \int_{\R^d} g(x) p(X=x) d x \approx \frac 1 n \sum_{i=1}^n g(X_i),\]</span> con alta probabilità. Il teorema limite centrale garantisce invece che le oscillazioni <span class="math display">\[ \int_{\R^d} g(x) p(X=x) d x- \frac 1 n \sum_{i=1}^n g(X_i)\]</span> saranno circa gaussiane ma con una deviazione standard proporzionale a <span class="math inline">\(1/\sqrt{n}\)</span>. Il vantaggio di questo metodo, rispetto ad esempio ad una integrazione numerica deterministica, è che in dimensione alta (ossia se <span class="math inline">\(d\)</span> è grande) non è particolarmente più oneroso (mentre in dimensione bassa è possibile fare di meglio).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">1000</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>gaussiane <span class="ot">=</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>g <span class="ot">=</span> gaussiane<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>monte_carlo <span class="ot">=</span> <span class="fu">cumsum</span>( g ) <span class="sc">/</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n, monte_carlo, <span class="at">type=</span><span class="st">'l'</span>, <span class="at">lwd=</span><span class="dv">3</span>, <span class="at">col=</span>miei_colori[<span class="dv">2</span>], <span class="at">ylab=</span><span class="st">'approssimazione'</span>, <span class="at">xlab=</span><span class="st">'numero simulazioni'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>, <span class="at">col=</span>miei_colori[<span class="dv">1</span>], <span class="at">lwd=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-teoremi_limite_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid figure-img" width="480"></p>
+<figcaption>Calcolo del momento secondo di una gaussiana standard tramite media empirica di un campione indipendente.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-extreme" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="sec-extreme"><span class="header-section-number">8.6</span> Cenni agli eventi estremi</h2>
+<p>Lo studio delle caratteristiche <em>medie</em> di una famiglia di variabili aleatorie (o di un processo) è molto rilevante ai fini pratici, ma altrettanto può esserlo quello delle caratteristiche <em>estreme</em>: se <span class="math inline">\((X_t)_{t \in \mathcal{T}}\)</span> indica la temperatura di un dispositivo il cui funzionamento è garantito se è sempre compresa in un determinato intervallo di valori, è importante stimare la probabilità che la temperatura massima (o minima) raggiunta sia al di fuori di tale intervallo.</p>
+<p>Si tratta quindi di sostituire l’operazione di media campionaria con il massimo tra <span class="math inline">\(n\)</span> osservazioni <span class="math display">\[ M_n = \max_{i=1, \ldots, n} X_i,\]</span> o il minimo <span class="math display">\[ m_n = \min_{i=1, \ldots, n} X_i.\]</span> Supponendo che le variabili <span class="math inline">\((X_n)_{n=1}^\infty\)</span> siano indipendenti e tutte con la stessa legge, si può investigare il limite al tendere di <span class="math inline">\(n \to \infty\)</span> delle due variabili. Per brevità consideriamo solamente il caso del massimo (il caso del minimo è analogo).</p>
+<p>Per comprendere <span class="math inline">\(M_n\)</span> è utile considerarne la <span class="math inline">\(\CDF\)</span>: <span class="math display">\[ \begin{split} \CDF_{M_n}(t) &amp; = P( \max_{i=1, \ldots, n} X_i \le t) \\
+&amp; =P( X_1 \le t, X_2 \le t, \ldots, X_n \le t)\\
+&amp; = P(X_1 \le t) P(X_2 \le t) \ldots P(X_n \le t).\end{split}\]</span> Nel caso di densità continue delle <span class="math inline">\(X_i\)</span>, derivando questa identità si trova la densità di <span class="math inline">\(M_n\)</span>.</p>
+<p>Tuttavia, volendo limitarci a teoremi limite sotto ipotesi generali, supponiamo che tutte le <span class="math inline">\(X_i\)</span> abbiano la stessa legge (e quindi la stessa <span class="math inline">\(\CDF\)</span>) e mostriamo il seguente risultato, analogo per certi versi alla legge dei grandi numeri.</p>
+<div class="theorem">
+<p>Siano <span class="math inline">\((X_n)_{n =1 }^\infty\)</span> variabili aleatorie a valori reali, indipendenti e tutte con la stessa legge. Se <span class="math inline">\(t \in \R\)</span> è tale che <span class="math inline">\(\CDF_{X_1} (t)&lt;1\)</span>, ossia <span class="math display">\[ P(X_1 &gt;t) &gt;0,\]</span> allora <span class="math display">\[ \lim_{n \to \infty } P(M_n &gt; t)= 1\]</span> In particolare se <span class="math inline">\(X_1\)</span> assume con probabilità positiva (anche piccola) valori arbitrariamente grandi, allora si ha la convergenza in probabilità di <span class="math inline">\(M_n\)</span> verso <span class="math inline">\(+\infty\)</span>.</p>
+</div>
+<p>In termini più intuitivi, se non è impossibile che le variabili possano assumere valori arbitrariamente grandi, allora tali valori prima o poi si osserveranno. Si tratta di una versione del <em>paradosso di Borel</em>: se una scimmia scrive completamente a caso su una tastiera, prima o poi si vedranno apparire sullo schermo dei versi di Shakespeare. Ovviamente non è specificato in quanto tempo ci si aspetta che questo accada: in media esso è inversamente proporzionale alla probabilità che l’evento accada, il che può essere estremamente grande.</p>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Dalla formula per la <span class="math inline">\(\CDF_{M_n}\)</span>, si ha <span class="math display">\[ P(M_n \le t) =  \CDF_{M_n}(t) = (\CDF_{X_n}(t))^n \to 0\]</span> al tendere di <span class="math inline">\(n \to \infty\)</span>.</p>
+</div>
+<p>Il teorema sopra si può rendere più preciso mostrando una versione del teorema limite centrale nello studio degli eventi estremi. In questo caso la densità gaussiana è sostituita da altre densità, a seconda della “pesantezza” delle code delle <span class="math inline">\(X_i\)</span>, ossia dell’ordine di infinitesimo di <span class="math inline">\(P(X_i &gt;t)\)</span>. Vediamo ad esempio il caso di variabili esponenziali. Esse si usano tipicamente per i tempi di vita di dispositivi, quindi il massimo tra <span class="math inline">\(n\)</span> sarebbe il tempo in cui <span class="math inline">\(n\)</span> dispositivi smettono tutti di funzionare.</p>
+<div class="theorem">
+<p>Siano <span class="math inline">\((X_n)_{n=1}^\infty\)</span> variabili aleatorie indipendenti, tutte con densità esponenziale del medesimo parametro <span class="math inline">\(\lambda&gt;0\)</span>. Allora si ha la convergenza in legge <span class="math display">\[ \lim_{n \to \infty} M_n - \frac{ \log n}{\lambda} = G,\]</span> dove <span class="math inline">\(G\)</span> è una variabile con distribuzione di Gumbel, ossia con funzione di ripartizione, per <span class="math inline">\(t \in \R\)</span>, <span class="math display">\[ \CDF_G(t) = \exp\bra{ - e^{-t}}.\]</span></p>
+</div>
+<p>La densità di <span class="math inline">\(G\)</span> si ottiene derivando: <span class="math display">\[ \frac{d}{dt} \CDF_G(t) = \exp\bra{-t-e^{-t}  }.\]</span></p>
+<div class="proof">
+<p><span class="proof-title"><em>Dimostrazione</em>. </span>Per semplicità supponiamo <span class="math inline">\(\lambda=1\)</span>, il caso generale è simile. Sia <span class="math inline">\(t \in \R\)</span> e calcoliamo <span class="math display">\[\CDF_{M_n - \log n}(t) =\CDF_{M_n}(t+\log n) = \bra{ \CDF_{X_1}(t+\log n)}^n.\]</span> Ricordando che <span class="math inline">\(\CDF_{X_1}(s) = 1-e^{-s}\)</span> per <span class="math inline">\(s&gt;0\)</span>, e osservando che <span class="math inline">\(t+\log n&gt; 0\)</span> se <span class="math inline">\(n\)</span> è abbastanza grande (anche se <span class="math inline">\(t\)</span> è negativo), otteniamo <span class="math display">\[ \bra{ \CDF_{X_1}(t+\log n)}^n = (1- e^{-t-\log n})^n = \bra{ 1 - \frac{e^{-t}}{n}}^n \to e^{-e^{-t}},\]</span> per <span class="math inline">\(n \to \infty\)</span>.</p>
+</div>
+</section>
+<section id="problemi" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="problemi"><span class="header-section-number">8.7</span> Problemi</h2>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>più precisamente è detto legge <em>debole</em> dei grandi numeri<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiato!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiato!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07-processi_continui.html" class="pagination-link" aria-label="Processi a stati continui">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Processi a stati continui</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./10-R-intro.html" class="pagination-link" aria-label="Introduzione ad R">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduzione ad R</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

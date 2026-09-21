@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Introduzione ad R – Probabilità e Processi Stocastici (455AA)</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11-fourier.html" rel="next">
+<link href="./08-teoremi_limite.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2284e27fd139a888d034a55055b371a4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nessun risultato",
+    "search-matching-documents-text": "documenti trovati",
+    "search-copy-link-title": "Copiare il link nella ricerca",
+    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
+    "search-more-match-text": "ci sono altri risultati in questo documento",
+    "search-more-matches-text": "ulteriori risultati in questo documento",
+    "search-clear-button-title": "Pulire",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancellare",
+    "search-submit-button-title": "Inviare",
+    "search-label": "Ricerca"
+  }
+}</script>
+
+</head><body class="nav-sidebar floating quarto-light">\(
+  \newcommand{\comma}{\textrm{,}}
+  \newcommand{\period}{\textrm{.}}
+  \newcommand{\bra}[1]{\left( #1 \right)}
+  \newcommand{\sqa}[1]{\left[ #1 \right]}
+  \newcommand{\cur}[1]{\left\{ #1 \right\}}
+  \newcommand{\ang}[1]{\left&lt; #1 \right&gt;}
+  \newcommand{\abs}[1]{\left| #1 \right|}
+  \newcommand{\nor}[1]{\left\| #1 \right\|}
+  \newcommand{\prob}{\mathbb{P}}
+  \newcommand{\R}{\mathbb{R}}
+  \newcommand{\cN}{\mathcal{N}}
+  \newcommand{\N}{\mathbb{N}}
+  \renewcommand{\d}{\mathrm{d}}
+  \newcommand{\cA}{\mathcal{A}}
+  \newcommand{\cB}{\mathcal{B}}
+  \newcommand{\cD}{\mathbb{D}}
+  \newcommand{\cF}{\mathcal{F}}
+  \newcommand{\cT}{\mathcal{T}}
+  \newcommand{\esp}[1]{\mathbb{E}\sqa{#1}}
+  \newcommand{\E}[1]{\mathbb{E}\sqa{#1}}
+  \newcommand{\Var}[1]{\operatorname{Var}\bra{#1}}
+  \newcommand{\Cov}[1]{\operatorname{Cov}\bra{#1}}
+  \newcommand{\SUR}{\operatorname{SUR}}
+  \newcommand{\CDF}{\operatorname{CDF}}
+  \newcommand{\MGF}{\operatorname{MGF}}
+  \newcommand{\map}{\operatorname{MAP}}
+  \newcommand{\mle}{\operatorname{MLE}}
+  \newcommand{\ols}{\operatorname{OLS}}
+\)
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-R-intro.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduzione ad R</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probabilità e Processi Stocastici (455AA)</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Ricerca"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduzione</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eventi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Probabilità elementare</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VA_generali.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabili aleatorie generali</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-VA_indicatori.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indicatori caratteristici</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-VA_gaussiane.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variabili aleatorie gaussiane</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-processi_discreti.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Processi stocastici a stati discreti</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-processi_continui.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Processi a stati continui</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-teoremi_limite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">I teoremi limite</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-R-intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduzione ad R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Richiami sulla trasformata di Fourier</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-letture-consigliate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Letture consigliate</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Indice</h2>
+   
+  <ul>
+  <li><a href="#installare-r-ed-rstudio" id="toc-installare-r-ed-rstudio" class="nav-link active" data-scroll-target="#installare-r-ed-rstudio"><span class="header-section-number">9.1</span> Installare R ed RStudio</a></li>
+  <li><a href="#primi-comandi" id="toc-primi-comandi" class="nav-link" data-scroll-target="#primi-comandi"><span class="header-section-number">9.2</span> Primi comandi</a></li>
+  <li><a href="#r-come-calcolatrice" id="toc-r-come-calcolatrice" class="nav-link" data-scroll-target="#r-come-calcolatrice"><span class="header-section-number">9.3</span> R come calcolatrice</a></li>
+  <li><a href="#oggetti" id="toc-oggetti" class="nav-link" data-scroll-target="#oggetti"><span class="header-section-number">9.4</span> Oggetti</a></li>
+  <li><a href="#logical-e-character" id="toc-logical-e-character" class="nav-link" data-scroll-target="#logical-e-character"><span class="header-section-number">9.5</span> Logical e character</a></li>
+  <li><a href="#vettori" id="toc-vettori" class="nav-link" data-scroll-target="#vettori"><span class="header-section-number">9.6</span> Vettori</a></li>
+  <li><a href="#plot-barplot-e-istogrammi" id="toc-plot-barplot-e-istogrammi" class="nav-link" data-scroll-target="#plot-barplot-e-istogrammi"><span class="header-section-number">9.7</span> Plot, barplot e istogrammi</a></li>
+  <li><a href="#pacchetti" id="toc-pacchetti" class="nav-link" data-scroll-target="#pacchetti"><span class="header-section-number">9.8</span> Pacchetti</a></li>
+  <li><a href="#input-e-output" id="toc-input-e-output" class="nav-link" data-scroll-target="#input-e-output"><span class="header-section-number">9.9</span> Input e Output</a>
+  <ul class="collapse">
+  <li><a href="#esercizi" id="toc-esercizi" class="nav-link" data-scroll-target="#esercizi"><span class="header-section-number">9.9.1</span> Esercizi</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-appR" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduzione ad R</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In questa appendice diamo qualche informazione introduttiva su R ed RStudio (a partire da come installarli nel proprio dispositivo).</p>
+<section id="installare-r-ed-rstudio" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="installare-r-ed-rstudio"><span class="header-section-number">9.1</span> Installare R ed RStudio</h2>
+<p><strong>R</strong> è un linguaggio per il calcolo statistico. È multipiattaforma, gratuito e aperto (open-source). Dispone di una comunità molto attiva, molte estensioni (librerie) sono facilmente reperibili e ben curate – pur non essendovi una garanzia commerciale.</p>
+<p>Perché il nome R? è un’evoluzione open-source di un linguaggio per statistica chiamato S.</p>
+<p>Per installare R sul proprio computer, si seguano le istruzioni per scaricare una distribuzione pre-compilate alla pagina <a href="https://cran.rstudio.com/" class="uri">https://cran.rstudio.com/</a>.</p>
+<p>Oltre ad R, è fortemente consigliato installare inoltre <strong>RStudio</strong> che fornisce una interfaccia grafica ed un editor di testo con funzioni avanzate (precisamente è un <em>Integrated Development Enviroment</em>, IDE), che ne agevola notevolmente l’uso. La versione Desktop di RStudio è open-source e liberamente scaricabile seguendo le istruzioni alla pagina <a href="https://rstudio.com/products/rstudio/download/#download" class="uri">https://rstudio.com/products/rstudio/download/#download</a>.</p>
+</section>
+<section id="primi-comandi" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="primi-comandi"><span class="header-section-number">9.2</span> Primi comandi</h2>
+<p>All’avvio di Rstudio appare un terminale (in basso a sinistra) in cui possiamo inserire del testo. Questo ci permette di dialogare direttamente con una sessione di R.</p>
+<p>Possiamo scrivere un file contenente comandi da eseguire cliccando su <em>File-&gt;New File-&gt;R script</em> Questo produce uno script (una lista di comandi da eseguire).</p>
+<p>In alternativa, possiamo anche procedere con <em>File-&gt;New File-&gt;R notebook</em>, che produce un file di testo contenente blocchi di comandi eseguibili, esportabile in svariati formati, come HTML o PDF. Questo è molto utile se dovete preparare un report con l’analisi di alcuni dati (oppure documenti più sofisticati, ad esempio questi appunti sono tutti scritti usando R bookdown, una evoluzione di R notebook per scrivere libri).</p>
+<p>Per gestire <em>progetti</em> più complessi, contenenti diversi files, conviene andare alla voce <em>File-&gt;New Project…</em></p>
+<p>In generale si può ottenere informazioni su un comando digitandolo preceduto dal punto interrogativo. Ad esempio <code>?exp</code> fornisce indicazioni sul comando <code>exp()</code>. Dal menù <em>Help</em> si può accedere a svariate risorse, tutorial e documentazione per conoscere comandi di base e più avanzati.</p>
+</section>
+<section id="r-come-calcolatrice" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="r-come-calcolatrice"><span class="header-section-number">9.3</span> R come calcolatrice</h2>
+<p>Il primo uso che possiamo fare di R è una calcolatrice in cui molte funzioni e costanti matematiche sono già disponibili.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">+</span><span class="dv">4</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">2</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">**</span><span class="dv">2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.414214</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">**</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.414214</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pi</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.141593</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(pi)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.224647e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>( <span class="fu">log</span> (<span class="dv">2</span>) )</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -Inf</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span><span class="sc">/</span><span class="dv">1</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">0</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Inf</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span><span class="sc">/</span><span class="dv">0</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NaN</code></pre>
+</div>
+</div>
+</section>
+<section id="oggetti" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="oggetti"><span class="header-section-number">9.4</span> Oggetti</h2>
+<p>Il linguaggio permette di introdurre oggetti (numeri, vettori, liste, funzioni…) e li mantiene in memoria fino alla chiusura di una sessione, a meno che non vengano esplicitamente rimossi (questo può essere utile per le prestazioni nel caso si usi troppa memoria).</p>
+<p>Per vedere quali oggetti sono attualmente disponibili nell’ambiente, usiamo il comando <code>ls()</code> oppure nella sezione in alto a destra, clicchiamo su <em>Environment</em>.</p>
+<p>Possiamo definire oggetti con il nome che preferiamo con i comandi <code>=</code> oppure <code>&lt;-</code> (in R è buona pratica usare il secondo, ma il simbolo di uguaglianza è comune a molti altri linguaggi). Definiamo ad esempio un oggetto numerico <span class="math inline">\(X\)</span> assegnando il valore 3:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="dv">3</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>oppure equivalentemente possiamo anche digitare <code>X = 3</code>. Per accedere al valore, basta dare il suo nome come comando</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>X</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Osserviamo che se introduciamo una copia <span class="math inline">\(Y\)</span> di <span class="math inline">\(X\)</span> e poi modifichiamo il valore di <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> non cambia.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">=</span> X</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>Y</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Le operazioni tra oggetti (numerici) sono abbastanza naturali:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> <span class="dv">7</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>somma <span class="ot">=</span> x0<span class="sc">+</span>x1<span class="sc">+</span>x2</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>somma</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>prodotto <span class="ot">=</span> x0 <span class="sc">*</span> x1 <span class="sc">*</span> x2</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>prodotto</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35</code></pre>
+</div>
+</div>
+<p>Ci sono diversi tipi di oggetti, per conoscerne il tipo (la classe) il comando è <code>class()</code>, con il nome dell’oggetto tra le parentesi. Ad esempio,</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(X)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+</section>
+<section id="logical-e-character" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="logical-e-character"><span class="header-section-number">9.5</span> Logical e character</h2>
+<p>Una classe di oggetti utile sono i <strong>LOGICAL</strong> (valori TRUE o FALSE).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">TRUE</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "logical"</code></pre>
+</div>
+</div>
+<p>Le operazioni Booleane sono <code>&amp;</code> (and), <code>|</code> (or), <code>!</code> (not).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">&amp;</span> <span class="cn">FALSE</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">|</span> <span class="cn">FALSE</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span><span class="cn">TRUE</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>Possiamo inoltre confrontare due oggetti numerici usando <code>==</code> per verificare se coincidono</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">==</span> <span class="dv">1</span> </span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">&gt;=</span> <span class="dv">2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">!=</span> <span class="dv">2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Un`altra classe di oggetti sono i <strong>CHARACTER</strong>, ossia stringhe di caratteri evidenziate dalla presenza delle virgolette.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="st">'hello world'</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'hello world'</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "hello world"</code></pre>
+</div>
+</div>
+</section>
+<section id="vettori" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="vettori"><span class="header-section-number">9.6</span> Vettori</h2>
+<p>I dati raccolti sperimentalmente spesso sono sequenze di osservazioni (ad esempio corrispondenti a diversi istanti nel tempo) che possiamo rappresentare come vettori. Per costruire un vettore usiamo la funzione di <em>concatenazione</em> <code>c()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>vettore <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>vettore</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+</div>
+<p>In realtà R non distingue tra vettore e scalare. Questo è utile ad esempio per le operazioni matematiche che vengono eseguite su ciancun elemento.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>vettore <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 4 6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>vettore <span class="sc">+</span> vettore</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 4 6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>vettore <span class="sc">*</span> vettore</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 4 9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>( vettore )</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2.718282  7.389056 20.085537</code></pre>
+</div>
+</div>
+<p>Attenzione però quando operiamo con vettori di lunghezze diverse:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>vettore0 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>vettore0</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>vettore1<span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>vettore1</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>vettore0 <span class="sc">+</span> vettore1</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 4 4 6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>vettore0<span class="sc">*</span>vettore1</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 4 3 8</code></pre>
+</div>
+</div>
+<p>Possiamo selezionare gli elementi di un vettore specificandone la posizione tra parentesi quadre <code>[]</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>vettore <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">18</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>vettore[<span class="dv">1</span>]</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>vettore[<span class="dv">2</span>]</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p><strong>Attenzione</strong>: diversamente da altri linguaggi, R conta le posizioni a partire da <span class="math inline">\(1\)</span>, non da <span class="math inline">\(0\)</span>.</p>
+<p>Possiamo anche inserire un vettore all’interno delle parentesi quadre per selezionare un sottovettore del vettore iniziale. Oppure inserire un vettore di oggetti LOGICAL, in tal caso si seleziona il sottovettore corrispondente alle componenti <code>TRUE</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>vettore[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>)]</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  5  3 -1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>vettore <span class="sc">&gt;=</span> <span class="dv">5</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE FALSE  TRUE  TRUE FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>vettore[ vettore <span class="sc">&gt;=</span> <span class="dv">5</span>]</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  5  6 18</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>vettore[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  5  3  6 18</code></pre>
+</div>
+</div>
+<p>Per creare un vettore di numeri reali equispaziati usiamo il comando <code>seq()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">by=</span><span class="fl">0.1</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3 -0.2 -0.1  0.0  0.1  0.2  0.3  0.4
+[16]  0.5  0.6  0.7  0.8  0.9  1.0</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-barplot-e-istogrammi" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="plot-barplot-e-istogrammi"><span class="header-section-number">9.7</span> Plot, barplot e istogrammi</h2>
+<p>Il comando <code>plot()</code> è il comando di base per rappresentare grafici in due dimensioni. Usiamolo ad esempio per tracciare un grafico della funzione <span class="math inline">\(\sin(x)\)</span> nell’intervallo <span class="math inline">\([0, 2\pi]\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>deltax<span class="ot">=</span><span class="fl">0.01</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">2</span><span class="sc">*</span>pi, <span class="at">by=</span>deltax)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">sin</span>(x)</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y, <span class="at">type=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-R-intro_files/figure-html/unnamed-chunk-18-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Possiamo aggiungiamo delle etichette agli assi e cambiare il colore al grafico, ad esempio</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">type=</span><span class="st">'l'</span>, <span class="at">xlab=</span><span class="st">'x'</span>, <span class="at">ylab=</span><span class="st">'sin(x)'</span>,  <span class="at">col=</span>miei_colori[<span class="dv">1</span>], <span class="at">lwd=</span><span class="dv">3</span>, <span class="at">main=</span><span class="st">"grafico della funzione seno"</span>)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-R-intro_files/figure-html/unnamed-chunk-19-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Per rappresentare grafici a barre il comando è <code>barplot()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>( <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">col=</span>miei_colori[<span class="dv">1</span>], <span class="at">names.arg =</span> <span class="fu">c</span>(<span class="st">"uno"</span>, <span class="st">"due"</span>, <span class="st">"tre"</span>, <span class="st">"quattro"</span>))</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-R-intro_files/figure-html/unnamed-chunk-20-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>per rappresentare istogrammi (ossia diagrammi a barre delle frequenze in cui un insieme di dati assume valori in determinati intervalli), il comando è <code>hist()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">col=</span>miei_colori[<span class="dv">1</span>])</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-R-intro_files/figure-html/unnamed-chunk-21-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="pacchetti" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="pacchetti"><span class="header-section-number">9.8</span> Pacchetti</h2>
+<p>Uno dei punti di forza di R è l’ampia disponibilità di pacchetti (o librerie) che contengono svariate funzioni pronte all’uso per l’analisi dei dati, la rappresentazione grafica e la statistica. Faremo uso di qualche pacchetto anche nel corso. Il comando di base per <em>installare</em> un pacchetto (assicurarsi di essere connessi ad Internet) è <code>install.packages()</code> dove bisogna specificare tra virgolette il nome del pacchetto che si vuole installare. Ad esempio, faremo uso di <code>forecast</code>, perciò si può installarlo digitando sulla console di R <code>install.packages('forecast')</code>.</p>
+<p>Per <em>caricare</em> in una sessione di R un pacchetto e quindi poter accedere a tutte le funzioni che contiene, il comando è <code>library()</code> in cui di nuovo bisogna specificare nelle parentesi il nome del pacchetto di interesse. Perciò per poter accedere alle funzioni di <code>forecast</code> basterà digitare, dopo averlo installato correttamente, il comando <code>library(forecast)</code>. Non è necessario installare ogni volta il pacchetto, mentre in ogni sessione di R vanno caricati ogni volta (a meno di non riprendere una sessione già salvata).</p>
+<p>Se si vuole accedere solo ad una funzione da un pacchetto installato (ma non necessariamente caricato con <code>library()</code>), basta digitare il nome del pacchetto, due volte due punti, <code>::</code>, e poi il nome della funzione. Ad esempio, per usare la funzione <code>Acf()</code> dal pacchetto <code>forecast</code> (supponendo che sia installato), basta digitare <code>forecast::Acf()</code>.</p>
+<p>Un elenco dei pacchetti disponibili è mantenuto sul sito <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN</a>.</p>
+<p>Le funzioni descritte sopra sono sufficienti per un uso di base, ma per un uso più efficiente dei pacchetti e in particolare la gestione delle interdipendenze (una funzione può avere bisogno di altre funzioni definite in altri pacchetti ecc.), consigliamo il tool <a href="https://cran.r-project.org/web/packages/pacman/index.html">pacman</a>. Per installarlo basta dare il comando <code>install.packages('pacman')</code>.</p>
+</section>
+<section id="input-e-output" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="input-e-output"><span class="header-section-number">9.9</span> Input e Output</h2>
+<p>La gestione dell’input e dell’output (ad esempio di previsioni, stime ecc.) in R può essere un po’ noiosa, perché formati di file diversi (testo semplice, Excel, ecc.) richiedono comandi diversi. Tuttavia, per un uso di base, si può installare il pacchetto <code>rio</code>. Consigliamo di usare <code>pacman</code> come strumento per l’installazione. Digitare quindi <code>install.packages('pacman')</code> se <code>pacman</code> non è già installato. Successivamente, basta digitare <code>pacman::p_install('rio')</code> per installarlo e <code>pacman::p_load('rio')</code> per caricarlo.</p>
+<p>Una volta caricato, i comandi principali sono <code>import()</code> ed <code>export()</code> rispettivamente per caricare da un file e salvare dei dati su un file. È importante specificare l’estensione del file (si basa su quello per determinare il tipo di file).</p>
+<p>Non tutti i formati sono supportati di base (in particolare gli Excel non lo sono), si veda la descrizione a <a href="https://cran.r-project.org/web/packages/rio/vignettes/rio.html">questa pagina</a> (bisogna usare il comando <code>install_formats()</code>)</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carichiamo rio</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'rio'</span>)</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Esportiamo il dataset Iris come un file .csv (comma separated value), ossia un file di testo semplice in cui le colonne sono separate da virgola</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(iris, <span class="st">"iris.csv"</span>)</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Nella cartella di lavoro dovrebbe essere presente il file iris.csv. Per importare basta usare il comando import. Vediamo ad esempio sullo stesso file appena creato</span></span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>iris_importato <span class="ot">=</span> <span class="fu">import</span>( <span class="st">"iris.csv"</span>)</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Riconosciamo il solito dataset Iris</span></span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris_importato)</span></code></pre></div><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+</div>
+</div>
+<section id="esercizi" class="level3" data-number="9.9.1">
+<h3 data-number="9.9.1" class="anchored" data-anchor-id="esercizi"><span class="header-section-number">9.9.1</span> Esercizi</h3>
+<div class="exercise">
+<p>Approssimare numericamente l’integrale di <span class="math inline">\(\sin(x)\)</span> nell’intervallo <span class="math inline">\([1/2,1]\)</span>. Può essere utile il comando <code>sum()</code>.</p>
+</div>
+<div class="exercise">
+<p>Perché il grafico prodotto dal comando <code>hist(y)</code> sopra non mostra barre della medesima altezza? Ripetere la stessa costruzione con una funzione <span class="math inline">\(y= f(x)\)</span> diversa: per quali valori di <span class="math inline">\(y\)</span> l’istogramma presenterà barre più alte?</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiato!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiato!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08-teoremi_limite.html" class="pagination-link" aria-label="I teoremi limite">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">I teoremi limite</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./11-fourier.html" class="pagination-link" aria-label="Richiami sulla trasformata di Fourier">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Richiami sulla trasformata di Fourier</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
